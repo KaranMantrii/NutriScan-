@@ -151,7 +151,7 @@ function Index() {
         </div>
 
         {/* Bottom Buttons */}
-        <div className="absolute top-170 inset-x-0 bottom-25 z-10 flex flex-col sm:flex-row items-center justify-center gap-3 px-4">
+        <div className="absolute top-150 inset-x-0 bottom-25 z-10 flex flex-col sm:flex-row items-center justify-center gap-3 px-4">
 
           {/* Scroll Button */}
           <button
