@@ -1,0 +1,8 @@
+@font-face {
+  font-family: custom;
+  src: url("/public/fonts/Author-Bold.otf") format('otf');
+}
+shiny-text{
+  display: inline-block;
+  font-family: custom;
+}

@@ -1,0 +1,192 @@
+@import "tailwindcss";
+
+:root {
+  --radius: 1rem;
+
+  /* Colors (converted to widely supported format) */
+  --background: #0b1a13;
+  --foreground: #ecfdf5;
+
+  --card: #12231b;
+  --card-foreground: #ecfdf5;
+
+  --primary: #22c55e;
+  --primary-foreground: #052e16;
+
+  --secondary: #1f3d2f;
+  --secondary-foreground: #ecfdf5;
+
+  --muted: #1a2e25;
+  --muted-foreground: #9ca3af;
+
+  --accent: #06b6d4;
+  --accent-foreground: #042f2e;
+
+  --border: rgba(255, 255, 255, 0.1);
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(
+    135deg,
+    #22c55e,
+    #4ade80
+  );
+
+  --gradient-accent: radial-gradient(
+    circle,
+    rgba(34, 197, 94, 0.6),
+    rgba(6, 182, 212, 0.4),
+    transparent 70%
+  );
+
+  /* Shadows */
+  --shadow-glow: 0 0 60px -10px rgba(34, 197, 94, 0.5);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: "Inter", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: "Sora", sans-serif;
+    letter-spacing: -0.02em;
+  }
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@layer utilities {
+  .glass {
+    background: rgba(18, 35, 27, 0.55);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .gradient-text {
+    background: var(--gradient-primary);
+    background-clip: text;
+    color: transparent;
+  }
+
+  .bg-gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .bg-gradient-accent {
+    background: var(--gradient-accent);
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .font-author {
+    font-family: "Author", sans-serif;
+  }
+
+  .font-chillax {
+    font-family: "Chillax", sans-serif;
+  }
+
+  .font-outfit {
+    font-family: "Outfit", sans-serif;
+  }
+
+  .font-stardom {
+    font-family: "Stardom", sans-serif;
+  }
+
+  .font-epilogue {
+    font-family: "Epilogue", sans-serif;
+  }
+  .bg-hero {
+    background-color: #08140e;
+    background-image:
+      radial-gradient(circle at 15% 10%, rgba(132, 204, 22, 0.18), transparent 18%),
+      radial-gradient(circle at 85% 20%, rgba(16, 185, 129, 0.12), transparent 24%),
+      radial-gradient(circle at 70% 80%, rgba(34, 197, 94, 0.08), transparent 20%);
+    background-blend-mode: screen, screen, normal;
+  }
+
+  .bg-grid-overlay {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    background-size: 44px 44px;
+    opacity: 0.3;
+    transform: translateZ(0);
+  }
+
+  .bg-noise-overlay {
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0px, transparent 2px),
+      radial-gradient(circle, rgba(255, 255, 255, 0.03) 0px, transparent 4px);
+    background-size: 20px 20px, 80px 80px;
+    opacity: 0.25;
+    pointer-events: none;
+    mix-blend-mode: screen;
+  }
+
+  .bg-hero-glow {
+    background: radial-gradient(circle at center, rgba(132, 204, 22, 0.14), transparent 40%);
+    filter: blur(30px);
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.5s ease-in;
+  }
+
+  .animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
+
+@font-face {
+  font-family: "Author";
+  src: url("/fonts/Author-Bold.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Chillax";
+  src: url("/fonts/Chillax-Regular.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Outfit";
+  src: url("/fonts/Outfit-Light.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Stardom";
+  src: url("/fonts/Stardom-Regular.otf") format("opentype");
+}
+
+
+@font-face {
+  font-family: "Epilogue";
+  src: url("/fonts/Epilogue-Bold.otf") format("opentype");
+}
