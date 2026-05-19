@@ -56,7 +56,7 @@ function Index() {
 
                   <div className="relative z-10 mt-8 flex  flex-col items-center justify-center gap-4 w-full max-w-xs mx-auto">
                     <Link to="/home" className='w-full'>
-                      <button className="w-full flex items-center justify-center gap-3 bg-green-500 hover:bg-green-400 px-8 py-4 rounded-xl font-black font-outfit text-base transition-all hover:-translate-y-0.5 shadow-xl shadow-green-500/30 text-black">
+                      <button className="w-full flex items-center justify-center gap-3 bg-green-500 hover:bg-green-400 px-8 py-4 rounded-xl font-black font-outfit text-base transition-all hover:-translate-y-0.5 shadow-xl shadow-green-500/30 text-black cursor-pointer">
                         <ScanLine className="w-5 h-5" />
                         Get Started
                         <MoveRight className="w-5 h-5" />

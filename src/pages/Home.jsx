@@ -1,5 +1,6 @@
 import React from "react"; // Capitalized 'React' to fix compile errors
 import { Flame, ScanLine, Salad, Dumbbell, ScanHeart } from 'lucide-react';
+import GlassSurface from "../Components/GlassSurface.jsx";
 
 export default function Home(){
     // 1. Array is now safely declared BEFORE the layout return
@@ -25,7 +26,7 @@ export default function Home(){
                 </div>
                 {/* Changed bg-black-600 to bg-zinc-900 so Tailwind recognizes the color */}
                 <div className="rounded-2xl text-amber-100 bg-zinc-900 border border-gray-500/40 flex items-center gap-2 px-2 py-2 mt-2">
-                    <Flame className="w-5 h-5 text-amber-400 animate-pulse" />
+                    <Flame className="w-5 h-5 text-amber-400" />
                     <span className="ml-2 text-[12px] font-medium text-amber-400"> 0 day streak</span>
                 </div>
             </header>
@@ -48,7 +49,7 @@ export default function Home(){
                     </div>
     
                     <div>
-                        <ScanLine className="w-14 h-14 text-black animate-pulse" />
+                        <ScanLine className="w-14 h-14 text-black" />
                     </div>
                 </div>
             </div>
@@ -66,8 +67,9 @@ export default function Home(){
                     </div>
                 ))}
             </div>
-            <div className="text-zinc-500 font-bold text-sm mt-5 uppercase">Discover</div>
-            <div className="pt-5 flex flex-col gap-2 w-full">
+
+            <div className="text-zinc-500 font-bold text-[16px] mt-5 uppercase">Discover</div>
+            <div className="pt-2 flex flex-col gap-2 w-full">
                 {features.map((feature, index) => (
                     <div key={index} className="flex-1 rounded-2xl bg-neutral-900 flex items-center border border-gray-500/40 ">
                         <div className="p-4 ">
@@ -80,6 +82,24 @@ export default function Home(){
                     </div>
                 ))}
             </div>
-        </div>
+        
+        <footer className="fixed bottom-0 left-0 right-0 z-50 p-3 sm:p-4">
+            <div className="w-full h-auto rounded-t-none rounded-b-4xl bg-neutral-900/10 backdrop-blur-md border border-white/20 shadow-lg">
+                <div className="flex w-full items-center justify-around  p-3 text-white">
+                    <div className="text-[22px] sm:text-2xl font-medium cursor-pointer hover:opacity-80 transition-opacity font-chillax">
+                        <p>Home</p>
+                    </div>
+                    <div className="rounded-2xl flex items-center justify-center bg-green-400 p-3 
+                    shadow-[0_0_25px_rgba(74,222,128,0.45),0_0_50px_rgba(74,222,128,0.2)] 
+                    border border-green-300/40 w-45 ">
+                        <ScanLine className="w-7.5 h-7.5 text-black animate-pulse" />
+                    </div>
+                    <div className="text-[22px] sm:text-2xl font-medium cursor-pointer hover:opacity-80 transition-opacity font-chillax">
+                        <p>Profile</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
     );
 };

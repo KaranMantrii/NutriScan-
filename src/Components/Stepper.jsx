@@ -159,7 +159,7 @@ export default function Stepper({
                 {currentStep !== 1 && (
                   <button
                     onClick={handleBack}
-                    className="rounded-lg px-2 py-1 text-xl text-neutral-400 transition hover:text-neutral-200"
+                    className="rounded-lg px-2 py-1 text-xl text-neutral-400 transition hover:text-neutral-200 cursor-pointer"
                     {...backButtonProps}
                   >
                     {backButtonText}
@@ -168,7 +168,7 @@ export default function Stepper({
 
                 <button
                   onClick={handleNext}
-                  className="flex items-center justify-center rounded-full bg-green-500 px-4 py-2 text-lg font-semibold text-white transition hover:scale-105 hover:bg-green-600 active:bg-green-700"
+                  className="flex items-center justify-center rounded-full bg-green-500 px-4 py-2 text-lg font-semibold text-white transition hover:scale-105 hover:bg-green-600 active:bg-green-700 cursor-pointer"
                   {...nextButtonProps}
                 >
                   {nextButtonText}
