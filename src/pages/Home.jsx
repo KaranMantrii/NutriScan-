@@ -19,7 +19,7 @@ export default function Home(){
     return (
         <div>
             {/* Kept your exact header layout intact */}
-            <header className="fixed top-0 left-0 right-0 z-50 p-3 sm:p-4 flex items-start gap-34">
+            <header className="fixed top-0 left-0 right-0 z-50 p-3 sm:p-4 flex items-start justify-between gap-34">
                 <div>
                     <p className="text-sm text-zinc-500">WELCOME BACK</p>
                     <p className="text-[25px] font-bold font-outfit">Hey there 👋</p>
