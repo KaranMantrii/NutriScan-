@@ -31,11 +31,15 @@ export default function Home(){
                 </div>
             </header>
 
+            {/* MAIN GREEN SCAN CONTAINER (Added w-full, hover brightness, and click compression) */}
             <div className="pt-9 w-full">
-                <div className="rounded-2xl flex items-center justify-between bg-green-400 p-6 
+                <button 
+                    onClick={() => console.log("Main scan clicked")}
+                    className="w-full text-left rounded-2xl flex items-center justify-between bg-green-400 p-6 
                     shadow-[0_0_25px_rgba(74,222,128,0.45),0_0_50px_rgba(74,222,128,0.2)] 
-                    border border-green-300/40">    
-    
+                    border border-green-300/40 cursor-pointer transition-all duration-150
+                    hover:brightness-105 active:scale-[0.99]"
+                >    
                     <div className="flex flex-col">
                         <span className="text-[11px] font-black tracking-wider text-black/80 uppercase">
                             TAP TO SCAN
@@ -51,7 +55,7 @@ export default function Home(){
                     <div>
                         <ScanLine className="w-14 h-14 text-black" />
                     </div>
-                </div>
+                </button>
             </div>
     
             {/* Stats map loop runs perfectly down here now */}
@@ -68,38 +72,51 @@ export default function Home(){
                 ))}
             </div>
 
+            {/* THREE DIVS AFTER DISCOVER (Added subtle hover background tint & active state) */}
             <div className="text-zinc-500 font-bold text-[16px] mt-5 uppercase">Discover</div>
             <div className="pt-2 flex flex-col gap-2 w-full">
                 {features.map((feature, index) => (
-                    <div key={index} className="flex-1 rounded-2xl bg-neutral-900 flex items-center border border-gray-500/40 ">
+                    <button 
+                        key={index} 
+                        onClick={() => console.log(`${feature.label} clicked`)}
+                        className="w-full text-left rounded-2xl bg-neutral-900 flex items-center border border-gray-500/40 cursor-pointer
+                        transition-all duration-150 hover:bg-neutral-800/70 active:bg-neutral-800"
+                    >
                         <div className="p-4 ">
                             <feature.icon className="w-9 h-9 text-amber-400 mb-2" />
-                            <p className="font-bold text-xl">{feature.label}</p>
+                            <p className="font-bold text-xl text-white">{feature.label}</p>
                             <p className="text-[13px] tracking-wider text-zinc-400">
                                 {feature.description}
                             </p>
                         </div>
-                    </div>
+                    </button>
                 ))}
             </div>
         
-        <footer className="fixed bottom-0 left-0 right-0 z-50 p-3 sm:p-4">
-            <div className="w-full h-auto rounded-t-none rounded-b-4xl bg-neutral-900/10 backdrop-blur-md border border-white/20 shadow-lg">
-                <div className="flex w-full items-center justify-around  p-3 text-white">
-                    <div className="text-[22px] sm:text-2xl font-medium cursor-pointer hover:opacity-80 transition-opacity font-chillax">
-                        <p>Home</p>
-                    </div>
-                    <div className="rounded-2xl flex items-center justify-center bg-green-400 p-3 
-                    shadow-[0_0_25px_rgba(74,222,128,0.45),0_0_50px_rgba(74,222,128,0.2)] 
-                    border border-green-300/40 w-45 ">
-                        <ScanLine className="w-7.5 h-7.5 text-black animate-pulse" />
-                    </div>
-                    <div className="text-[22px] sm:text-2xl font-medium cursor-pointer hover:opacity-80 transition-opacity font-chillax">
-                        <p>Profile</p>
+            <footer className="fixed bottom-0 left-0 right-0 z-50 p-3 sm:p-4">
+                <div className="w-full h-auto rounded-t-none rounded-b-4xl bg-neutral-900/10 backdrop-blur-md border border-white/20 shadow-lg">
+                    <div className="flex w-full items-center justify-around p-3 text-white">
+                        <div className="text-[22px] sm:text-2xl font-medium cursor-pointer hover:opacity-80 transition-opacity font-chillax">
+                            <p>Home</p>
+                        </div>
+                        
+                        {/* MINI SCAN BUTTON IN THE FOOTER (Added hover brightness and active scale compression) */}
+                        <button 
+                            onClick={() => console.log("Footer scan clicked")}
+                            className="rounded-2xl flex items-center justify-center bg-green-400 p-3 
+                            shadow-[0_0_25px_rgba(74,222,128,0.45),0_0_50px_rgba(74,222,128,0.2)] 
+                            border border-green-300/40 w-45 cursor-pointer transition-all duration-150
+                            hover:brightness-105 active:scale-95"
+                        >
+                            <ScanLine className="w-7.5 h-7.5 text-black animate-pulse" />
+                        </button>
+                        
+                        <div className="text-[22px] sm:text-2xl font-medium cursor-pointer hover:opacity-80 transition-opacity font-chillax">
+                            <p>Profile</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </footer>
-    </div>
+            </footer>
+        </div>
     );
 };
