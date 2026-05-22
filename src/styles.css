@@ -120,6 +120,18 @@
   .font-epilogue {
     font-family: "Epilogue", sans-serif;
   }
+
+  .font-exposeb{
+    font-family: "Expose-Bold", sans-serif;
+  }
+
+  .font-exposer {
+    font-family: "Expose-Regular", sans-serif;
+  }
+  .font-exposebl {
+    font-family: "Expose-Black", sans-serif;
+  }
+
   .bg-hero {
     background-color: #08140e;
     background-image:
@@ -189,4 +201,19 @@
 @font-face {
   font-family: "Epilogue";
   src: url("/fonts/Epilogue-Bold.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Expose-Bold";
+  src: url("/fonts/Expose-Bold.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Expose-Regular";
+  src: url("/fonts/Expose-Regular.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Expose-Black";
+  src: url("/fonts/Expose-Black.otf") format("opentype");
 }
