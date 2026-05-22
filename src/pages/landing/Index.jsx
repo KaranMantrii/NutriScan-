@@ -9,6 +9,7 @@ import { ScanBarcode, ScanLine, MoveRight, Zap, Salad, Dumbbell } from 'lucide-r
 import '../../styles.css';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import Home from '../Home.jsx';
+import Scan from '../scan.jsx';
 
 function Index() {
   return (
@@ -19,6 +20,7 @@ function Index() {
         <main className="max-w-7xl mx-auto px-4 pt-13">
           <Routes>
             <Route path="/home" element={<Home />} />
+            <Route path="/scan" element={<Scan />} />
             <Route path="/" element={
               <>
           {/* ================= NAVIGATION ================= */}
