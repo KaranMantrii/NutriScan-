@@ -4,6 +4,8 @@ import GlassSurface from "../Components/GlassSurface.jsx";
 import { Routes, Route, Link } from "react-router-dom";
 import Scan from "./Scan.jsx";
 import Profile from "./Profile.jsx";
+import Fitness from "./fitness.jsx";
+import Tips from "./tips.jsx";
 
 export default function Home(){
     // 1. Array is now safely declared BEFORE the layout return
@@ -24,7 +26,9 @@ export default function Home(){
             <Routes >
                 <Route path="/scan" element={<Scan />} />
                 <Route path="/home" element={<Home />} />
-                <Route path="/profile" element={<Profile />} />       
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/fitness" element={<Fitness />} />
+                <Route path="/tips" element={<Tips />} />
             </Routes>       
             <div>
             {/* Kept your exact header layout intact */}
