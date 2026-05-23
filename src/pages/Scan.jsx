@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export default function Scan() {
     return (
-        <div className="min-h-dvh text-white overflow-x-hidden bg-neutral-950 pb-28">
+        <div className="min-h-dvh text-white overflow-x-hidden pb-28">
             
             {/* Header */}
             <header className="fixed top-0 left-0 z-50 p-5 sm:p-4 text-center flex items-center justify-center w-full">
