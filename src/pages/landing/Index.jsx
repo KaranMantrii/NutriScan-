@@ -10,6 +10,8 @@ import '../../styles.css';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import Home from '../Home.jsx';
 import Scan from '../scan.jsx';
+import Fitness from '../fitness.jsx';
+import Tips from '../tips.jsx';
 
 function Index() {
   return (
@@ -21,6 +23,8 @@ function Index() {
           <Routes>
             <Route path="/home" element={<Home />} />
             <Route path="/scan" element={<Scan />} />
+            <Route path="/fitness" element={<Fitness />} />
+            <Route path="/tips" element={<Tips />} />
             <Route path="/" element={
               <>
           {/* ================= NAVIGATION ================= */}
