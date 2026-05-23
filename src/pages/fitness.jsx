@@ -52,7 +52,7 @@ export default function Fitness() {
             gradientFrom: "from-green-950/40",
             duration: "6 weeks",
             sessions: "4 / week",
-            intensity: "Low–Med",
+            intensity: "Low-Med",
             schedule: [
                 { day: "MON", workout: "Steady-state run",  duration: "35 min" },
                 { day: "TUE", workout: "Cycling intervals", duration: "40 min" },
@@ -90,19 +90,19 @@ export default function Fitness() {
                 onClick={() => setSelected(p.id)}
                 className={`
                     w-full relative overflow-hidden rounded-2xl text-left
-                    bg-gradient-to-r ${p.gradientFrom} to-neutral-900
+                    bg-linear-to-r ${p.gradientFrom} to-neutral-900
                     border transition-all duration-200 p-4 flex items-center gap-3
                     ${selected === p.id ? "border-green-400/50" : "border-gray-500/30 active:scale-[0.98]"}
                 `}
             >
-                <div className={`w-11 h-11 rounded-2xl ${p.iconBg} flex items-center justify-center flex-shrink-0`}>
+                <div className={`w-11 h-11 rounded-2xl ${p.iconBg} flex items-center justify-center shrink-0`}>
                     <PIcon className="w-5 h-5 text-white" />
                 </div>
                 <div className="flex-1 min-w-0">
                     <p className="font-bold text-white text-[14px] leading-tight">{p.title}</p>
                     <p className="text-zinc-400 text-[12px] mt-0.5">{p.subtitle}</p>
                 </div>
-                <ChevronRight className={`w-4 h-4 flex-shrink-0 ${selected === p.id ? "text-green-400" : "text-zinc-500"}`} />
+                <ChevronRight className={`w-4 h-4 shrink-0 ${selected === p.id ? "text-green-400" : "text-zinc-500"}`} />
             </button>
         );
     };
@@ -146,7 +146,7 @@ export default function Fitness() {
                             {plan.description}
                         </p>
                     </div>
-                    <div className={`w-14 h-14 rounded-2xl ${plan.iconBg} flex items-center justify-center flex-shrink-0`}>
+                    <div className={`w-14 h-14 rounded-2xl ${plan.iconBg} flex items-center justify-center shrink-0`}>
                         <Icon className="w-7 h-7 text-white" />
                     </div>
                 </div>
