@@ -9,7 +9,7 @@ export default function Fitness() {
             id: 0,
             title: "Fat Loss Sprint",
             subtitle: "Weight Loss",
-            description: "HIIT cardio + strength circuits to burn fat while preserving muscle.",
+            description: "HIT cardio + strength circuits to burn fat while preserving muscle.",
             icon: Flame,
             iconBg: "bg-green-500",
             gradientFrom: "from-green-950/60",
