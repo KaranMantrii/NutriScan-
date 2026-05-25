@@ -17,26 +17,29 @@ export default function Scan() {
                 <p className="text-[16px] text-zinc-400 mt-1 font-exposer">Align it within the frame to start scanning</p>
             </div>
 
-            {/* Scanner Frame */}
-            <div className="w-80 h-80 mx-auto mt-3 rounded-2xl flex items-center justify-center border-2 border-green-500/30 relative shadow-lg shadow-green-900/50">
-                <div className="w-full h-full bg-black rounded-2xl flex items-center justify-center relative overflow-hidden">
-                    <div className="absolute top-0 left-0 w-12 h-12 border-t-4 border-l-4 border-green-400 rounded-tl-2xl"></div>
-                    <div className="absolute top-0 right-0 w-12 h-12 border-t-4 border-r-4 border-green-400 rounded-tr-2xl"></div>
-                    <div className="absolute bottom-0 left-0 w-12 h-12 border-b-4 border-l-4 border-green-400 rounded-bl-2xl"></div>
-                    <div className="absolute bottom-0 right-0 w-12 h-12 border-b-4 border-r-4 border-green-400 rounded-br-2xl"></div>
-                    
-                    <ScanLine className="w-full h-1 bg-green-400 absolute animate-pulse" />
-                </div>
-            </div>
-
+            {/* Outer Green Rectangular Scanner Frame */}
+<div className="w-90 h-70 mx-auto mt-6 rounded-2xl flex items-center justify-center border-2 border-green-500/30 relative shadow-lg shadow-green-900/20 ">
+    
+    {/* Inner Transparent Viewfinder Window */}
+    <div className="w-87.5 h-62.5  rounded-xl flex items-center justify-center relative overflow-hidden">
         
+        {/* Glowing Scanner Corners */}
+        <div className="absolute top-0 left-0 w-10 h-10 border-t-4 border-l-4 border-green-400 rounded-tl-xl"></div>
+        <div className="absolute top-0 right-0 w-10 h-10 border-t-4 border-r-4 border-green-400 rounded-tr-xl"></div>
+        <div className="absolute bottom-0 left-0 w-10 h-10 border-b-4 border-l-4 border-green-400 rounded-bl-xl"></div>
+        <div className="absolute bottom-0 right-0 w-10 h-10 border-b-4 border-r-4 border-green-400 rounded-br-xl"></div>
+        
+        {/* Full-Width Scanline Locked Perfectly in the Middle */}
+        <div className="w-full h-0.5 bg-green-400 absolute top-1/2 left-0 -translate-y-1/2 shadow-[0_0_12px_rgba(74,222,128,0.8)] animate-pulse"></div>
+    </div>
+</div>
 
             {/* Footer Navigation */}
-            <footer className="fixed bottom-0 left-0 right-0 z-50 p-3 sm:p-4">
-                <div className="w-full h-auto rounded-t-none rounded-b-4xl bg-neutral-900/10 backdrop-blur-md border border-white/20 shadow-lg">
+            <footer className="fixed bottom-0 left-0 right-0 z-50 p-4 sm:p-4">
+                <div className="w-full h-auto rounded-2xl bg-neutral-900/60 backdrop-blur-md border border-white/10 shadow-xl">
                     <div className="flex w-full items-center justify-around p-3 text-white">
                         
-                        {/* Home Link (Cleaned Nesting) */}
+                        {/* Home Link */}
                         <Link 
                             to="/home" 
                             className="text-[22px] sm:text-2xl font-medium flex flex-col items-center justify-center gap-0.5 cursor-pointer hover:opacity-80 transition-opacity font-chillax"
@@ -45,7 +48,7 @@ export default function Scan() {
                             <span className="text-sm font-normal">Home</span>
                         </Link>
 
-                        {/* Scanner Core Button (Fixed Width) */}
+                        {/* Scanner Core Button */}
                         <button 
                             onClick={() => console.log("Footer scan clicked")}
                             className="rounded-2xl flex items-center justify-center bg-green-400 p-3 
@@ -56,7 +59,7 @@ export default function Scan() {
                             <ScanLine className="w-8 h-8 text-black" />
                         </button>
                         
-                        {/* Profile Link (Cleaned Nesting) */}
+                        {/* Profile Link */}
                         <Link 
                             to="/profile" 
                             className="text-[22px] sm:text-2xl font-medium flex flex-col items-center justify-center gap-0.5 cursor-pointer hover:opacity-80 transition-opacity font-chillax"
