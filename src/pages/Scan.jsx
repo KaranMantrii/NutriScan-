@@ -22,7 +22,7 @@ export default function Scan() {
 <div className="w-90 h-70 mx-auto mt-6 rounded-2xl flex items-center justify-center border-2 border-green-500/30 relative shadow-lg shadow-green-900/20 ">
     
     {/* Inner Transparent Viewfinder Window */}
-    <div className="w-87.5 h-62.5  rounded-xl flex items-center justify-center relative overflow-hidden">
+    <div className="w-80 h-60 rounded-xl flex items-center justify-center relative overflow-hidden">
         <div className="absolute inset-0 w-full h-full z-0">
         <QuaggaScanner />
         </div>
