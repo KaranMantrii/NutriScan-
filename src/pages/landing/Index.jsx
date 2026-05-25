@@ -9,7 +9,7 @@ import { ScanBarcode, ScanLine, MoveRight, Zap, Salad, Dumbbell } from 'lucide-r
 import '../../styles.css';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import Home from '../Home.jsx';
-import Scan from '../scan.jsx';
+import Scan from '../Scan.jsx';
 import Fitness from '../fitness.jsx';
 import Tips from '../tips.jsx';
 
