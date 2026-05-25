@@ -59,7 +59,7 @@ const QuaggaScanner = () =>{
     },[]);
 
     return (
-    <div style={{ maxWidth: "500px" }}>
+    <div>
 
       {error ? (
         <p style={{ color: "red" }}>{error}</p>
