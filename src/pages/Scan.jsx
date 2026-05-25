@@ -1,6 +1,7 @@
 import React from "react";
 import { ScanLine, House, User } from 'lucide-react';
 import { Link } from "react-router-dom";
+import QuaggaScanner from "../Components/Cam.jsx";  
 
 export default function Scan() {
     return (
@@ -22,15 +23,18 @@ export default function Scan() {
     
     {/* Inner Transparent Viewfinder Window */}
     <div className="w-87.5 h-62.5  rounded-xl flex items-center justify-center relative overflow-hidden">
+        <div className="absolute inset-0 w-full h-full z-0">
+        <QuaggaScanner />
+        </div>
         
         {/* Glowing Scanner Corners */}
-        <div className="absolute top-0 left-0 w-10 h-10 border-t-4 border-l-4 border-green-400 rounded-tl-xl"></div>
-        <div className="absolute top-0 right-0 w-10 h-10 border-t-4 border-r-4 border-green-400 rounded-tr-xl"></div>
-        <div className="absolute bottom-0 left-0 w-10 h-10 border-b-4 border-l-4 border-green-400 rounded-bl-xl"></div>
-        <div className="absolute bottom-0 right-0 w-10 h-10 border-b-4 border-r-4 border-green-400 rounded-br-xl"></div>
+        <div className="absolute top-0 left-0 w-10 h-10 border-t-4 border-l-4 border-green-400 rounded-tl-xl z-10 pointer-events-none"></div>
+        <div className="absolute top-0 right-0 w-10 h-10 border-t-4 border-r-4 border-green-400 rounded-tr-xl z-10 pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 w-10 h-10 border-b-4 border-l-4 border-green-400 rounded-bl-xl z-10 pointer-events-none"></div>
+        <div className="absolute bottom-0 right-0 w-10 h-10 border-b-4 border-r-4 border-green-400 rounded-br-xl z-10 pointer-events-none"></div>
         
         {/* Full-Width Scanline Locked Perfectly in the Middle */}
-        <div className="w-full h-0.5 bg-green-400 absolute top-1/2 left-0 -translate-y-1/2 shadow-[0_0_12px_rgba(74,222,128,0.8)] animate-pulse"></div>
+        <div className="w-full h-0.5 bg-green-400 absolute top-1/2 left-0 -translate-y-1/2 shadow-[0_0_12px_rgba(74,222,128,0.8)] animate-pulse z-10 pointer-events-none"></div>
     </div>
 </div>
 
