@@ -6,13 +6,9 @@ import { useNavigate } from "react-router-dom";
 import Result from "./Results.jsx";
 import { div } from "motion/react-client";
 
+export default function Scan() {
     const navigate = useNavigate();
     
-    <Routes>
-        <Route path='/result' element = {<Results />} />
-    </Routes>
-
-export default function Scan() {
     const [barcode, setBarcode] = useState(null);
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(false);
