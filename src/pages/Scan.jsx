@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import QuaggaScanner from "../Components/Cam.jsx";
 import { useNavigate } from "react-router-dom";
 import Result from "./Results.jsx";
+import { div } from "motion/react-client";
 
     const navigate = useNavigate();
 
@@ -43,6 +44,11 @@ export default function Scan() {
     };
 
     return (
+        <div>
+            <Routes>
+                <Route path='/result' element = {<Results />} />
+            </Routes>
+
         <div className="min-h-dvh text-white overflow-x-hidden pb-28">
 
             {/* Header */}
@@ -132,7 +138,7 @@ export default function Scan() {
                     </div>
                 </div>
             </footer>
-
+            </div>
         </div>
     );
 }
