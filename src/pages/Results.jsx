@@ -13,7 +13,7 @@ export default function Result() {
     // Fallback if accessed directly without scanning
     if (!product) {
         return (
-            <div className="min-h-dvh flex flex-col items-center justify-center text-white p-6 bg-zinc-950">
+            <div className="min-h-dvh flex flex-col items-center justify-center text-white p-6">
                 <p className="text-zinc-400 mb-4">No product data found.</p>
                 <button 
                     onClick={() => navigate(-1)}
@@ -36,7 +36,7 @@ export default function Result() {
     return (
         <div className="min-h-dvh text-white overflow-x-hidden pb-20">
             {/* Header */}
-            <header className="sticky top-0 z-50 p-5 bg-zinc-950/80 backdrop-blur-md flex items-center border-b border-white/10">
+            <header className="sticky top-0 z-50 p-5 flex items-center border-b border-white/10">
                 <button onClick={() => navigate(-1)} className="p-2 -ml-2 rounded-full hover:bg-zinc-800 transition-colors">
                     <ChevronLeft className="w-6 h-6 text-zinc-300" />
                 </button>
