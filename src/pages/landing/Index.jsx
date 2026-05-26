@@ -12,6 +12,7 @@ import Home from '../Home.jsx';
 import Scan from '../Scan.jsx';
 import Fitness from '../fitness.jsx';
 import Tips from '../tips.jsx';
+import Result from '../Results.jsx'
 
 function Index() {
   return (
