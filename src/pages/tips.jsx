@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import React from "react";
-import GradientText from "../components/GradientText";
+import GradientText from "../components/GradientText.jsx";
 
 const tips = [
     {
