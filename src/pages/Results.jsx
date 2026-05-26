@@ -65,7 +65,7 @@ export default function Result() {
                         
                         {/* Nutri-score Badge */}
                     <div className="shrink-0">
-                        <NutriGauge grade={product.nutriscore_grade} />
+                        <Nutricircle grade={product.nutriscore_grade} />
                     </div>
                     </div>
                 </div>
