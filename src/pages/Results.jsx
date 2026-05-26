@@ -34,7 +34,7 @@ export default function Result() {
     };
 
     return (
-        <div className="min-h-dvh bg-zinc-950 text-white overflow-x-hidden pb-20">
+        <div className="min-h-dvh text-white overflow-x-hidden pb-20">
             {/* Header */}
             <header className="sticky top-0 z-50 p-5 bg-zinc-950/80 backdrop-blur-md flex items-center border-b border-white/10">
                 <button onClick={() => navigate(-1)} className="p-2 -ml-2 rounded-full hover:bg-zinc-800 transition-colors">
