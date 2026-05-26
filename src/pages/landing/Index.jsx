@@ -25,6 +25,7 @@ function Index() {
             <Route path="/scan" element={<Scan />} />
             <Route path="/fitness" element={<Fitness />} />
             <Route path="/tips" element={<Tips />} />
+            <Route path='/result' element={<Results />} />
             <Route path="/" element={
               <>
           {/* ================= NAVIGATION ================= */}
