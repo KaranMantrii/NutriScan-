@@ -3,6 +3,7 @@ import { ScanLine, House, User } from 'lucide-react';
 import { Link } from "react-router-dom";
 import QuaggaScanner from "../Components/Cam.jsx";
 import { useNavigate } from "react-router-dom";
+import Result from "./results.jsx";
 
     const navigate = useNavigate();
 
