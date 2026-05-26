@@ -217,3 +217,15 @@
   font-family: "Expose-Black";
   src: url("/fonts/Expose-Black.otf") format("opentype");
 }
+#quagga-scanner video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+}
+
+#quagga-scanner canvas {
+  display: none !important;
+}
