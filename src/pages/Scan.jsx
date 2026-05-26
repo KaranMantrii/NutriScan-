@@ -2,6 +2,9 @@ import React, { useState, useRef } from "react";
 import { ScanLine, House, User } from 'lucide-react';
 import { Link } from "react-router-dom";
 import QuaggaScanner from "../Components/Cam.jsx";
+import { useNavigate } from "react-router-dom";
+
+    const navigate = useNavigate();
 
 export default function Scan() {
     const [barcode, setBarcode] = useState(null);
@@ -22,13 +25,16 @@ export default function Scan() {
         try {
             const res = await fetch(`https://world.openfoodfacts.org/api/v0/product/${barcodeNumber}.json`);
             const data = await res.json();
+            
             if (data.status === 0) {
-                setError("Product not found.");
+                setError("Product not found in database.");
             } else {
                 setProduct(data.product);
+                // Navigate to the results page and pass the product data
+                navigate('/result', { state: { product: data.product } }); 
             }
         } catch {
-            setError("Network error.");
+            setError("Network error. Please check your connection.");
         }
 
         setLoading(false);
