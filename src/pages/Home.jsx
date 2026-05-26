@@ -16,9 +16,9 @@ export default function Home(){
     ];
 
     const features = [
-        {label: 'Recipe Suggestions', description: 'Tailored Recipes for Your Dietary Needs.',icon: Salad, icon2: MoveRight},
-        {label: 'Fitness Plans', description: 'Personalized fitness routines based on your goals.',icon: Dumbbell, icon2: MoveRight},
-        {label: 'Health Tips', description: 'AI Health tips for a healthier lifestyle.',icon: ScanHeart, icon2: MoveRight},
+        {label: 'Recipe Suggestions', description: 'Tailored Recipes for Your Dietary Needs.',icon: Salad, icon2: MoveRight, path: "/recipes"},
+        {label: 'Fitness Plans', description: 'Personalized fitness routines based on your goals.',icon: Dumbbell, icon2: MoveRight, path: "/fitness"},
+        {label: 'Health Tips', description: 'AI Health tips for a healthier lifestyle.',icon: ScanHeart, icon2: MoveRight, path: "/tips"},
     ]
 
     return (
@@ -91,8 +91,9 @@ export default function Home(){
             <div className="text-zinc-500 font-bold text-[16px] mt-5 uppercase">Discover</div>
 <div className="pt-2 flex flex-col gap-2 w-full">
     {features.map((feature, index) => (
-        <button 
+        <Link
             key={index} 
+            to={feature.path} // Added navigation to the feature's path
             onClick={() => console.log(`${feature.label} clicked`)}
             // Added `justify-between`, moved `p-4` here, and added `group` for hover effects
             className="group w-full text-left rounded-2xl bg-neutral-900 flex items-center justify-between p-4 border border-gray-500/40 cursor-pointer transition-all duration-150 hover:bg-neutral-800/70 active:bg-neutral-800"
@@ -109,7 +110,7 @@ export default function Home(){
             {/* Right Side: Arrow Icon */}
             {/* Added a subtle transition so the arrow slides right on hover */}
             <feature.icon2 className="w-10 h-10 text-zinc-500 transition-transform duration-200 group-hover:translate-x-1 group-hover:text-zinc-300" />
-        </button>
+        </Link>
     ))}
 </div>
 
