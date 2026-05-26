@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {Flame, Dumbbell, Heart, Zap, ChevronRight, Clock, Activity, Target, House, ScanLine, User} from "lucide-react";
 import ElectricBorder from "../Components/ElectricBorder.jsx";
 import {Link} from "react-router-dom";
+import GradientText from "../Components/GradientText.jsx";
 
 export default function Fitness() {
     const plans = [
@@ -108,18 +109,19 @@ export default function Fitness() {
     };
 
     return (
-        <div className="text-white p-5 pb-32 pt-20">
-            <h1 className="text-3xl font-bold text-white">
-                <span className="text-white">Fitness </span>
-                <span className="text-green-400">Plans</span></h1>
-            <p className="text-zinc-500 mt-1 text-sm">Pick a program that matches your goal. AI-personalized plans coming soon.</p>
+        <div className="text-white pb-32">
+            <h1 className="text-5xl font-bold text-white font-author">
+                <GradientText colors={["#84CC16", "#10B981", "#cda6f1"]} animationSpeed={8}>
+                    Fitness Plans
+                </GradientText></h1>
+            <p className="text-zinc-400 mt-1 text-sm font-chillax">Pick a program that matches your goal. AI-personalized plans coming soon.</p>
             <div className="grid grid-cols-2 gap-3 mt-6">
                 {plans.map((p) =>
                     selected === p.id ? (
                         <ElectricBorder
                             key={p.id}
                             color="#4ade80"
-                            speed={0.15}
+                            speed={0.12}
                             chaos={0.05}
                             thickness={2}
                             style={{ borderRadius: 16 }}
