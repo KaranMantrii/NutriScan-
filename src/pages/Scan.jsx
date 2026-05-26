@@ -7,6 +7,10 @@ import Result from "./Results.jsx";
 import { div } from "motion/react-client";
 
     const navigate = useNavigate();
+    
+    <Routes>
+        <Route path='/result' element = {<Results />} />
+    </Routes>
 
 export default function Scan() {
     const [barcode, setBarcode] = useState(null);
@@ -44,10 +48,6 @@ export default function Scan() {
     };
 
     return (
-        <div>
-            <Routes>
-                <Route path='/result' element = {<Results />} />
-            </Routes>
 
         <div className="min-h-dvh text-white overflow-x-hidden pb-28">
 
@@ -139,6 +139,5 @@ export default function Scan() {
                 </div>
             </footer>
             </div>
-        </div>
     );
 }
