@@ -178,6 +178,41 @@ export default function Recipe() {
                     </div>
                 )}
             </div>
+
+            <footer className="fixed bottom-0 left-0 right-0 z-50 p-3 sm:p-4">
+                <div className="w-full h-auto rounded-t-none rounded-b-4xl bg-neutral-900/10 backdrop-blur-md border border-white/20 shadow-lg">
+                    <div className="flex w-full items-center justify-around p-3 text-white">
+                        <div className="text-[22px] sm:text-2xl font-medium cursor-pointer hover:opacity-80 transition-opacity font-chillax">
+                            <Link to="/home">
+                                <button className="flex flex-col items-center justify-center gap-0.5">
+                                    <House className="w-5.5 h-5.5  text-white" />
+                                    Home
+                                </button>
+                            </Link>
+                        </div>
+                        <Link to="/scan">
+                        <button 
+                            onClick={() => console.log("Footer scan clicked")}
+                            className="rounded-2xl flex items-center justify-center bg-green-400 p-3 
+                            shadow-[0_0_25px_rgba(74,222,128,0.45),0_0_50px_rgba(74,222,128,0.2)] 
+                            border border-green-300/40 w-45 cursor-pointer transition-all duration-150
+                            hover:brightness-105 active:scale-95"
+                        >
+                            <ScanLine className="w-7.5 h-7.5 text-black animate-pulse" />
+                        </button>
+                        </Link>
+                        
+                        <div className="text-[22px] sm:text-2xl font-medium cursor-pointer hover:opacity-80 transition-opacity font-chillax">
+                            <Link to="/profile">
+                                <button className="flex flex-col items-center justify-center gap-0.5">
+                                    <User className="w-5.5 h-5.5  text-white" />
+                                    Profile
+                                </button>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </div>
     );
 }
