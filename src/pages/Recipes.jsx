@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import GradientText from "../Components/GradientText.jsx";
-import { Clock, ChefHat, X, ShoppingCart, Utensils } from 'lucide-react';
+import { Clock, ChefHat, X, Utensils, House, ScanLine, User } from 'lucide-react';
+import {Link} from "react-router-dom";
 
 export default function Recipe() {
     const [currentIngredient, setCurrentIngredient] = useState("");
@@ -77,7 +78,7 @@ export default function Recipe() {
     };
 
     return (
-        <div className="min-h-screen py-6 px-4 flex justify-center items-start">
+        <div className="min-h-screen py-6 px-4 flex justify-center items-start pb-25">
             <div className="w-max max-w-2xl rounded-2xl shadow-2xl p-6 md:p-8 border">
                 
                 {/* Header */}
