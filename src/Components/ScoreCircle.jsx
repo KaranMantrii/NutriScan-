@@ -24,6 +24,7 @@ export function getScoreStatus(score) {
 }
 
 export function ScoreCircle({
+
   score,
   size = 220,
   label
