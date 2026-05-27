@@ -13,6 +13,7 @@ import Scan from '../Scan.jsx';
 import Fitness from '../fitness.jsx';
 import Tips from '../tips.jsx';
 import Result from '../Results.jsx';
+import Recipe from '../Recipes.jsx';
 
 function Index() {
   return (
@@ -27,6 +28,7 @@ function Index() {
             <Route path="/fitness" element={<Fitness />} />
             <Route path="/tips" element={<Tips />} />
             <Route path='/result' element={<Result />} />
+            <Route path='/recipes' element={<Recipe />} />
             <Route path="/" element={
               <>
           {/* ================= NAVIGATION ================= */}

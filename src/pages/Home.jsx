@@ -1,4 +1,4 @@
-import React from "react"; // Capitalized 'React' to fix compile errors
+import React from "react"; 
 import { Flame, ScanLine, Salad, Dumbbell, ScanHeart,House, UserRound, User, MoveRight } from 'lucide-react';
 import GlassSurface from "../Components/GlassSurface.jsx";
 import { Routes, Route, Link } from "react-router-dom";
@@ -6,9 +6,10 @@ import Scan from "./Scan.jsx";
 import Profile from "./Profile.jsx";
 import Fitness from "./fitness.jsx";
 import Tips from "./tips.jsx";
+import Recipe from "./Recipes.jsx"
 
 export default function Home(){
-    // 1. Array is now safely declared BEFORE the layout return
+
     const stats = [
         { label: 'SCANS', value: '-'},
         { label: 'AVG SCORE', value: '-'},
@@ -25,11 +26,13 @@ export default function Home(){
         <div>
             <Routes >
                 <Route path="/scan" element={<Scan />} />
-                <Route path="/home" element={<Home />} />
+                <Route path="/home/*" element={<Home />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/fitness" element={<Fitness />} />
                 <Route path="/tips" element={<Tips />} />
-            </Routes>       
+                <Route path="/recipes" element={<Recipe />} />
+            </Routes>
+
             <div>
             {/* Kept your exact header layout intact */}
             <header className="fixed top-0 left-0 right-0 z-50 p-3 sm:p-4 flex items-center justify-between w-full">
