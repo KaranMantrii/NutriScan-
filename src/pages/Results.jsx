@@ -1,7 +1,8 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ChevronLeft, Flame, Wheat, Leaf, Droplet } from "lucide-react";
-import Nutricircle from "../Components/Nutricircle";    
+import NutriScore from "../Components/NutriScore.jsx";    
+
 
 export default function Result() {
     const location = useLocation();
@@ -65,7 +66,7 @@ export default function Result() {
                         
                         {/* Nutri-score Badge */}
                     <div className="shrink-0 justify-center w-50 h-50">
-                        <Nutricircle grade={product.nutriscore_grade} />
+                        <NutriScore grade={product.nutriscore_grade} />
                     </div>
                     </div>
                 </div>
