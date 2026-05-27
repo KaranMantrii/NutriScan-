@@ -36,7 +36,7 @@ export default function Result() {
     return (
         <div className="min-h-dvh text-white overflow-x-hidden pb-20">
             {/* Header */}
-            <header className="sticky top-0 z-50 p-5 flex items-center border-b border-white/10">
+            <header className="sticky top-0 z-50 p-3 flex items-center border-b border-white/10">
                 <button onClick={() => navigate(-1)} className="p-2 -ml-2 rounded-full hover:bg-zinc-800 transition-colors">
                     <ChevronLeft className="w-6 h-6 text-zinc-300" />
                 </button>
@@ -45,7 +45,7 @@ export default function Result() {
 
             <main className="p-5 space-y-6">
                 {/* Product Overview Card */}
-                <div className="flex gap-4 p-4 bg-zinc-900/60 border border-white/10 rounded-2xl shadow-lg">
+                <div className="flex flex-col justify-center gap-4 p-2 bg-zinc-900/60 border border-white/10 rounded-2xl shadow-lg">
                     {product.image_front_url ? (
                         <img 
                             src={product.image_front_url} 
@@ -64,7 +64,7 @@ export default function Result() {
                         <p className="text-sm text-zinc-400 mt-1">{product.brands || "Unknown Brand"}</p>
                         
                         {/* Nutri-score Badge */}
-                    <div className="shrink-0">
+                    <div className="shrink-0 justify-center">
                         <Nutricircle grade={product.nutriscore_grade} />
                     </div>
                     </div>
