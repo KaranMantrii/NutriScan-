@@ -12,6 +12,7 @@ export default function Result() {
     const [averageScore, setAverageScore] = useState(0);
     const [scanCount, setScanCount] = useState(0);
     const [prevBest, setPrevBest] = useState(0);
+    const [streak, setStreak] = useState(0);
     
     // Prevents double-counting in React Strict Mode
     const hasAddedScore = useRef(false); 
@@ -25,6 +26,32 @@ export default function Result() {
     useEffect(() => {
         if (product && !hasAddedScore.current) {
             // Get existing totals from local storage
+            const savedLastScan = localStorage.getItem("LastScanDate");
+            let currentStreak = Number(localStorage.getItem("myStreak") || 0);
+
+            const today = new Date();
+            if(savedLastScan){
+                const lastScan = new Date(savedLastScan);
+
+                const todayMidNight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+                const lastScanMidNight = new Date(lastScan.getFullYear(), lastScan.getMonth(), lastScan.getDate());
+
+                const diff = todayMidNight.getTime() - lastScanMidNight.getTime();
+                const diffDays = Math.round(diff / (1000 * 3600 * 24));
+
+                if(diffDays === 1){
+                    currentStreak += 1;
+                }else if(diffDays > 1){
+                    currentStreak = 1;
+                }
+            }else{
+                currentStreak = 1;
+            }
+
+            localStorage.setItem("myStreak", currentStreak);
+            localStorage.setItem("LastScanDate", today.toISOString());
+            setStreak(currentStreak);
+
             const savedSum = Number(localStorage.getItem("myScoreSum") || 0);
             const savedCount = Number(localStorage.getItem("myScanCount") || 0);
             const prevBest = Number(localStorage.getItem("myPrevBest") || 0);
@@ -49,8 +76,10 @@ export default function Result() {
 
             // Lock it so it doesn't run twice
             hasAddedScore.current = true; 
-        }
-    }, [product, currentScore]);
+            }else if(!hasaddedScore.current){
+                setStreak(Number(localStorage.getItem("myStreak") || 0));
+            }
+            }, [product, currentScore]);
 
     if (!product) {
         return (
