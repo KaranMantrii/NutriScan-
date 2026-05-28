@@ -151,7 +151,7 @@ export default function Home(){
                             <Link to="/home">
                                 <button className="flex flex-col items-center justify-center gap-0.5">
                                     <House className="w-5.5 h-5.5 text-white" />
-                                    <span className="text-xs">Home</span>
+                                    <span className="text-[22px]">Home</span>
                                 </button>
                             </Link>
                         </div>
@@ -162,7 +162,7 @@ export default function Home(){
                             border border-green-300/40 w-24 cursor-pointer transition-all duration-150
                             hover:brightness-105 active:scale-95"
                         >
-                            <ScanLine className="w-7 h-7 text-black animate-pulse" />
+                            <ScanLine className="w-7.5 h-7.5 text-black animate-pulse" />
                         </button>
                         </Link>
                         
@@ -170,7 +170,7 @@ export default function Home(){
                             <Link to="/profile">
                                 <button className="flex flex-col items-center justify-center gap-0.5">
                                     <User className="w-5.5 h-5.5 text-white" />
-                                    <span className="text-xs">Profile</span>
+                                    <span className="text-[22px]">Profile</span>
                                 </button>
                             </Link>
                         </div>

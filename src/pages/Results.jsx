@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ChevronLeft, Flame, Wheat, Leaf, Droplet } from "lucide-react";
+import { ChevronLeft, Flame, Wheat, Leaf, Droplet, ScanLine } from "lucide-react";
 
 import { calculateHealthScore, ScoreCircle } from "../Components/NutriScore.jsx";    
+import Scan from "./Scan.jsx";
 
 export default function Result() {
     const location = useLocation();
@@ -105,7 +106,11 @@ export default function Result() {
                 <button onClick={() => navigate(-1)} className="p-2 -ml-2 rounded-full hover:bg-zinc-800 transition-colors">
                     <ChevronLeft className="w-6 h-6 text-zinc-300" />
                 </button>
-                <h4 className="text-lg font-medium text-zinc-300 font-chillax ml-2 flex-1">RESULTS</h4>
+                <h4 className="text-lg font-medium text-zinc-300 font-chillax ml-2 flex-1">Back</h4>
+                <div className = "flex gap-2">
+                    <ScanLine className="w-4 h-4 text-zinc-300" />
+                    <h4 className="text-lg font-medium text-zinc-300 font-chillax">Scan Another</h4>
+                    </div>
             </header>
 
             <main className="p-5 space-y-6">
