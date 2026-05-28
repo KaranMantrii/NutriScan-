@@ -6,9 +6,13 @@ export function getScoreStatus(score) {
     return { label: "BUY IT", color: "#84cc16", glow: "#4ade80" };
 }
 
-const calculateHealthScore = () => {
-        // Standard fetches
-        const satFatDV = getNumericNutrient('fat'); 
+export function calculateHealthScore(nutriments = {}) {
+    const getNumericNutrient = (key) => {
+        const val = nutriments[`${key}_100g`];
+        return val !== undefined ? parseFloat(val) : 0; 
+    };
+
+    const satFatDV = getNumericNutrient('fat'); 
         const sodiumDV = getNumericNutrient('sodium');
         const sugarDV = getNumericNutrient('sugars'); 
         const proteinDV = getNumericNutrient('proteins'); 
@@ -18,12 +22,8 @@ const calculateHealthScore = () => {
         const ironDV = getNumericNutrient('iron');
         const potassiumDV = getNumericNutrient('potassium'); 
         
-        // NEW: Fetch calories (checking standard API key variations)
         const calories = getNumericNutrient('energy-kcal') || getNumericNutrient('energy_kcal');
 
-        // STRICT PENALTIES
-        // Divided by 2 instead of 5 for Sugar and Sat Fat
-        // 1 point lost per 25 kcals per 100g 
         const penaltyPoints = 
             Math.floor(satFatDV / 2) + 
             Math.floor(sugarDV / 2) + 
