@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ChevronLeft, Flame, Wheat, Leaf, Droplet } from "lucide-react";
 
-// Import your newly exported logic and UI component
 import { calculateHealthScore, ScoreCircle } from "../Components/NutriScore.jsx";    
 
 export default function Result() {
@@ -14,22 +13,21 @@ export default function Result() {
     const [prevBest, setPrevBest] = useState(0);
     const [streak, setStreak] = useState(0);
     
-    // Prevents double-counting in React Strict Mode
     const hasAddedScore = useRef(false); 
 
     const product = location.state?.product;
     const nutriments = product?.nutriments || {};
 
-    // 1. Calculate the score right here in the parent
     const currentScore = product ? calculateHealthScore(nutriments) : 0;
 
     useEffect(() => {
         if (product && !hasAddedScore.current) {
-            // Get existing totals from local storage
-            const savedLastScan = localStorage.getItem("LastScanDate");
+            // Standardized key to "lastScanDate"
+            const savedLastScan = localStorage.getItem("lastScanDate");
             let currentStreak = Number(localStorage.getItem("myStreak") || 0);
 
             const today = new Date();
+            
             if(savedLastScan){
                 const lastScan = new Date(savedLastScan);
 
@@ -37,31 +35,30 @@ export default function Result() {
                 const lastScanMidNight = new Date(lastScan.getFullYear(), lastScan.getMonth(), lastScan.getDate());
 
                 const diff = todayMidNight.getTime() - lastScanMidNight.getTime();
-                const diffDays = Math.round(diff / (1000 * 3600 * 24));
+                const diffDays = Math.round(diff / (1000 * 60 * 60 * 24)); // Cleaned up math
 
                 if(diffDays === 1){
                     currentStreak += 1;
                 }else if(diffDays > 1){
                     currentStreak = 1;
                 }
-            }else{
+            } else {
                 currentStreak = 1;
             }
 
             localStorage.setItem("myStreak", currentStreak);
-            localStorage.setItem("LastScanDate", today.toISOString());
+            localStorage.setItem("lastScanDate", today.toISOString());
             setStreak(currentStreak);
 
             const savedSum = Number(localStorage.getItem("myScoreSum") || 0);
             const savedCount = Number(localStorage.getItem("myScanCount") || 0);
-            const prevBest = Number(localStorage.getItem("myPrevBest") || 0);
+            const savedPrevBest = Number(localStorage.getItem("myPrevBest") || 0);
 
             // Calculate new totals
             const newSum = savedSum + currentScore;
             const newCount = savedCount + 1;
             const newAverage = newSum / newCount;
-            const newBest = Math.max(prevBest, currentScore);
-
+            const newBest = Math.max(savedPrevBest, currentScore);
 
             // Save back to local storage
             localStorage.setItem("myScoreSum", newSum);
@@ -76,10 +73,12 @@ export default function Result() {
 
             // Lock it so it doesn't run twice
             hasAddedScore.current = true; 
-            }else if(!hasaddedScore.current){
-                setStreak(Number(localStorage.getItem("myStreak") || 0));
-            }
-            }, [product, currentScore]);
+            
+        // Fixed typo: hasAddedScore (capital A)
+        } else if(!hasAddedScore.current){ 
+            setStreak(Number(localStorage.getItem("myStreak") || 0));
+        }
+    }, [product, currentScore]);
 
     if (!product) {
         return (
@@ -130,7 +129,6 @@ export default function Result() {
                         </h1>
                         <p className="text-sm text-zinc-400 mt-1 mb-4">{product.brands || "Unknown Brand"}</p>
                         
-                        {/* 2. Pass the calculated score into your visual component */}
                         <div className="shrink-0 flex justify-center w-full">
                             <ScoreCircle score={currentScore} label="Health Score" />
                         </div>
@@ -141,7 +139,6 @@ export default function Result() {
                 <div>
                     <h2 className="text-sm font-medium text-zinc-400 mb-3 px-1 uppercase tracking-wider">Nutrition Facts (Per 100g)</h2>
                     <div className="grid grid-cols-2 gap-3">
-                        {/* Calories */}
                         <div className="p-4 bg-zinc-900/60 border border-white/10 rounded-2xl flex items-center gap-3">
                             <div className="p-2 bg-orange-500/20 text-orange-400 rounded-xl"><Flame className="w-5 h-5" /></div>
                             <div>
@@ -149,7 +146,6 @@ export default function Result() {
                                 <p className="font-bold">{nutriments['energy-kcal_100g'] ? `${nutriments['energy-kcal_100g']} kcal` : 'N/A'}</p>
                             </div>
                         </div>
-                        {/* Protein */}
                         <div className="p-4 bg-zinc-900/60 border border-white/10 rounded-2xl flex items-center gap-3">
                             <div className="p-2 bg-green-500/20 text-green-400 rounded-xl"><Leaf className="w-5 h-5" /></div>
                             <div>
@@ -157,7 +153,6 @@ export default function Result() {
                                 <p className="font-bold">{getNutrient('proteins')}</p>
                             </div>
                         </div>
-                        {/* Carbs */}
                         <div className="p-4 bg-zinc-900/60 border border-white/10 rounded-2xl flex items-center gap-3">
                             <div className="p-2 bg-yellow-500/20 text-yellow-400 rounded-xl"><Wheat className="w-5 h-5" /></div>
                             <div>
@@ -165,7 +160,6 @@ export default function Result() {
                                 <p className="font-bold">{getNutrient('carbohydrates')}</p>
                             </div>
                         </div>
-                        {/* Fats */}
                         <div className="p-4 bg-zinc-900/60 border border-white/10 rounded-2xl flex items-center gap-3">
                             <div className="p-2 bg-red-500/20 text-red-400 rounded-xl"><Droplet className="w-5 h-5" /></div>
                             <div>
