@@ -31,10 +31,6 @@ export default function Scan() {
             if (data.status === 0) {
                 setError("Product not found in database.");
             } else {
-
-                const getCount = parseInt(localStorage.getItem('scanCount') || "0",10);
-                localStorage.setItem('scanCount', getCount + 1);
-                
                 setProduct(data.product);
                 // Navigate to the results page and pass the product data
                 navigate('/result', { state: { product: data.product } }); 
