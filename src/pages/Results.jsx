@@ -107,7 +107,7 @@ export default function Result() {
                     <ChevronLeft className="w-6 h-6 text-zinc-300" />
                 </button>
                 <h4 className="text-lg font-medium text-zinc-300 font-chillax ml-2 flex-1">Back</h4>
-                <div className = "flex gap-2">
+                <div className = "flex items-center gap-2">
                     <ScanLine className="w-4 h-4 text-zinc-300" />
                     <h4 className="text-lg font-medium text-zinc-300 font-chillax">Scan Another</h4>
                     </div>
