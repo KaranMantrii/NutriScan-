@@ -35,6 +35,12 @@ export default function Home(){
         setBestScore(savedbest);
     })
 
+    const [streak, setStreak] = useState(0);
+    useEffect(() => {
+        const savedStreak = parseInt(localStorage.getItem('myStreak') ||`0`, 10);
+        setStreak(savedStreak);
+    })
+
     const stats = [
         { label: 'SCANS', value: totalScans},
         { label: 'AVG SCORE', value: avgScore},
@@ -62,7 +68,7 @@ export default function Home(){
                 {/* Changed bg-black-600 to bg-zinc-900 so Tailwind recognizes the color */}
                 <div className="rounded-2xl text-amber-100 bg-zinc-900 border border-gray-500/40 flex items-center gap-2 px-2 py-2 mt-2">
                     <Flame className="w-5 h-5 text-amber-400" />
-                    <span className="ml-2 text-[12px] font-medium text-amber-400"> 0 day streak</span>
+                    <span className="ml-2 text-[12px] font-medium text-amber-400"> {savedStreak} day streak</span>
                 </div>
             </header>
 
