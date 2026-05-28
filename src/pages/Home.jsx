@@ -79,7 +79,7 @@ export default function Home(){
                 <div className="rounded-2xl text-amber-100 bg-zinc-900 border border-gray-500/40 flex items-center gap-2 px-2 py-2 mt-2">
                     <Flame className="w-5 h-5 text-amber-400" />
                     {/* Fixed: Use 'streak' state, not 'savedStreak' */}
-                    <span className="ml-2 text-[12px] font-medium text-amber-400"> {streak} day streak</span>
+                    <span className="ml-2 text-[12px] font-medium text-amber-400"> {streak}  day streak</span>
                 </div>
             </header>
 
