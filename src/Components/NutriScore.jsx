@@ -1,36 +1,50 @@
 import React, { useEffect, useState } from "react";
 
-// Helper function to get status colors
 export function getScoreStatus(score) {
     if (score <= 40) return { label: "SKIP IT", color: "#ef4444", glow: "#f87171" };
     if (score <= 70) return { label: "MODERATE", color: "#f59e0b", glow: "#fbbf24" };
     return { label: "BUY IT", color: "#84cc16", glow: "#4ade80" };
 }
 
-// Helper function to calculate the score (Moved out of the component!)
-export function calculateHealthScore(nutriments = {}) {
-    const getNumericNutrient = (key) => {
-        const val = nutriments[`${key}_100g`];
-        return val !== undefined ? parseFloat(val) : 0; 
+const calculateHealthScore = () => {
+        // Standard fetches
+        const satFatDV = getNumericNutrient('fat'); 
+        const sodiumDV = getNumericNutrient('sodium');
+        const sugarDV = getNumericNutrient('sugars'); 
+        const proteinDV = getNumericNutrient('proteins'); 
+        const fiberDV = getNumericNutrient('fiber');          
+        const vitDDV = getNumericNutrient('vitamin_d'); 
+        const calciumDV = getNumericNutrient('calcium'); 
+        const ironDV = getNumericNutrient('iron');
+        const potassiumDV = getNumericNutrient('potassium'); 
+        
+        // NEW: Fetch calories (checking standard API key variations)
+        const calories = getNumericNutrient('energy-kcal') || getNumericNutrient('energy_kcal');
+
+        // STRICT PENALTIES
+        // Divided by 2 instead of 5 for Sugar and Sat Fat
+        // 1 point lost per 25 kcals per 100g 
+        const penaltyPoints = 
+            Math.floor(satFatDV / 2) + 
+            Math.floor(sugarDV / 2) + 
+            Math.floor(sodiumDV / 5) + 
+            Math.floor(calories / 25);
+
+        // Aggregate Micros
+        const totalMicrosDV = vitDDV + calciumDV + ironDV + potassiumDV;
+
+        // Bonuses remain standard (1 point per 5% DV)
+        const bonusPoints = 
+            Math.floor(proteinDV / 5) + 
+            Math.floor(fiberDV / 5) + 
+            Math.floor(totalMicrosDV / 5);
+
+        // Calculate raw score starting from 100
+        let rawScore = 100 - penaltyPoints + bonusPoints;
+        
+        // Clamp between 0 and 100
+        return Math.max(0, Math.min(100, rawScore));
     };
-
-    const satFatDV = getNumericNutrient('fat'); 
-    const sodiumDV = getNumericNutrient('sodium');
-    const sugarDV = getNumericNutrient('sugars'); 
-    const proteinDV = getNumericNutrient('proteins'); 
-    const fiberDV = getNumericNutrient('fiber');          
-    const vitDDV = getNumericNutrient('vitamin_d'); 
-    const calciumDV = getNumericNutrient('calcium'); 
-    const ironDV = getNumericNutrient('iron');
-    const potassiumDV = getNumericNutrient('potassium'); 
-
-    const penaltyPoints = Math.floor(satFatDV / 5) + Math.floor(sodiumDV / 5) + Math.floor(sugarDV / 5);
-    const totalMicrosDV = vitDDV + calciumDV + ironDV + potassiumDV;
-    const bonusPoints = Math.floor(proteinDV / 5) + Math.floor(fiberDV / 5) + Math.floor(totalMicrosDV / 5);
-
-    let rawScore = 100 - penaltyPoints + bonusPoints;
-    return Math.max(0, Math.min(100, rawScore));
-}
 
 // The UI Component
 export function ScoreCircle({ score, size = 220, label }) {
