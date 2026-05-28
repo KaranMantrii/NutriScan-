@@ -1,4 +1,5 @@
-import React from "react"; 
+import React from "react";
+import {useState, useEffect} from "react";
 import { Flame, ScanLine, Salad, Dumbbell, ScanHeart,House, UserRound, User, MoveRight } from 'lucide-react';
 import GlassSurface from "../Components/GlassSurface.jsx";
 import { Routes, Route, Link } from "react-router-dom";
@@ -10,17 +11,35 @@ import Recipe from "./Recipes.jsx"
 
 export default function Home(){
 
-    const stats = [
-        { label: 'SCANS', value: '-'},
-        { label: 'AVG SCORE', value: '-'},
-        { label: 'BEST SCORE', value: '-'},
-    ];
-
     const features = [
         {label: 'Recipe Suggestions', description: 'Tailored Recipes for Your Dietary Needs.',icon: Salad, icon2: MoveRight, path: "/recipes"},
         {label: 'Fitness Plans', description: 'Personalized fitness routines based on your goals.',icon: Dumbbell, icon2: MoveRight, path: "/fitness"},
         {label: 'Health Tips', description: 'AI Health tips for a healthier lifestyle.',icon: ScanHeart, icon2: MoveRight, path: "/tips"},
     ]
+
+    const [totalScans, setTotalScans] = useState(0);
+    useEffect(() => {
+        const savedScans = parseInt(localStorage.getItem('myScanCount') ||`0`, 10);
+        setTotalScans(savedScans);
+    })
+
+    const [avgScore, setAvgScore] = useState(0);
+    useEffect(() => {
+        const savedavgScore = parseInt(localStorage.getItem('myAverage') ||`0`, 10);
+        setAvgScore(savedavgScore);
+    })
+
+    const [bestScore, setBestScore] = useState(0);
+    useEffect(() => {
+        const savedbest = parseInt(localStorage.getItem('myPrevBest') ||`0`, 10);
+        setBestScore(savedbest);
+    })
+
+    const stats = [
+        { label: 'SCANS', value: totalScans},
+        { label: 'AVG SCORE', value: avgScore},
+        { label: 'BEST SCORE', value: bestScore},
+    ];
 
     return (
         <div>
@@ -32,7 +51,7 @@ export default function Home(){
                 <Route path="/tips" element={<Tips />} />
                 <Route path="/recipes" element={<Recipe />} />
             </Routes>
-
+        
             <div>
             {/* Kept your exact header layout intact */}
             <header className="fixed top-0 left-0 right-0 z-50 p-3 sm:p-4 flex items-center justify-between w-full">
@@ -79,10 +98,10 @@ export default function Home(){
             {/* Stats map loop runs perfectly down here now */}
             <div className="pt-5 flex gap-4 w-full">
                 {stats.map((stat, index) => (
-                    <div key={index} className="flex-1 rounded-2xl bg-neutral-900 flex items-center border border-gray-500/40 ">
-                        <div className="p-4 flex flex-col gap-1.5">
+                    <div key={index} className="flex-1 rounded-2xl bg-neutral-900 flex items-center justify-center border border-gray-500/40 ">
+                        <div className="p-2 flex flex-col gap-1.5 items-center justify-center">
                             <p>{stat.value}</p>
-                            <p className="text-[12px] tracking-wider text-white uppercase flex justify-center">
+                            <p className="text-[13px] text-white uppercase">
                                 {stat.label}
                             </p>
                         </div>

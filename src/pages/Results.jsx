@@ -1,17 +1,57 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ChevronLeft, Flame, Wheat, Leaf, Droplet } from "lucide-react";
-import NutriScore from "../Components/NutriScore.jsx";    
 
+// Import your newly exported logic and UI component
+import { calculateHealthScore, ScoreCircle } from "../Components/NutriScore.jsx";    
 
 export default function Result() {
     const location = useLocation();
     const navigate = useNavigate();
-    
-    // Retrieve the product data passed via router state
-    const product = location.state?.product;
 
-    // Fallback if accessed directly without scanning
+    const [averageScore, setAverageScore] = useState(0);
+    const [scanCount, setScanCount] = useState(0);
+    const [prevBest, setPrevBest] = useState(0);
+    
+    // Prevents double-counting in React Strict Mode
+    const hasAddedScore = useRef(false); 
+
+    const product = location.state?.product;
+    const nutriments = product?.nutriments || {};
+
+    // 1. Calculate the score right here in the parent
+    const currentScore = product ? calculateHealthScore(nutriments) : 0;
+
+    useEffect(() => {
+        if (product && !hasAddedScore.current) {
+            // Get existing totals from local storage
+            const savedSum = Number(localStorage.getItem("myScoreSum") || 0);
+            const savedCount = Number(localStorage.getItem("myScanCount") || 0);
+            const prevBest = Number(localStorage.getItem("myPrevBest") || 0);
+
+            // Calculate new totals
+            const newSum = savedSum + currentScore;
+            const newCount = savedCount + 1;
+            const newAverage = newSum / newCount;
+            const newBest = Math.max(prevBest, currentScore);
+
+
+            // Save back to local storage
+            localStorage.setItem("myScoreSum", newSum);
+            localStorage.setItem("myAverage", newAverage);
+            localStorage.setItem("myScanCount", newCount);
+            localStorage.setItem("myPrevBest", newBest);
+
+            // Update UI state
+            setAverageScore(newAverage);
+            setScanCount(newCount);
+            setPrevBest(newBest);
+
+            // Lock it so it doesn't run twice
+            hasAddedScore.current = true; 
+        }
+    }, [product, currentScore]);
+
     if (!product) {
         return (
             <div className="min-h-dvh flex flex-col items-center justify-center text-white p-6">
@@ -26,9 +66,6 @@ export default function Result() {
         );
     }
 
-    const nutriments = product.nutriments || {};
-
-    // Helper to safely get nutrient values
     const getNutrient = (key) => {
         const val = nutriments[`${key}_100g`];
         return val !== undefined ? `${val}${nutriments[`${key}_unit`] || 'g'}` : 'N/A';
@@ -36,7 +73,6 @@ export default function Result() {
 
     return (
         <div className="min-h-dvh text-white overflow-x-hidden pb-20">
-            {/* Header */}
             <header className="sticky top-0 z-50 p-1 flex items-center border-b border-white/10">
                 <button onClick={() => navigate(-1)} className="p-2 -ml-2 rounded-full hover:bg-zinc-800 transition-colors">
                     <ChevronLeft className="w-6 h-6 text-zinc-300" />
@@ -45,8 +81,9 @@ export default function Result() {
             </header>
 
             <main className="p-5 space-y-6">
+
                 {/* Product Overview Card */}
-                <div className="flex flex-col justify-center items-center gap-4 p-2 bg-zinc-900/60 border border-white/10 rounded-2xl shadow-lg">
+                <div className="flex flex-col justify-center items-center gap-4 p-6 bg-zinc-900/60 border border-white/10 rounded-2xl shadow-lg">
                     {product.image_front_url ? (
                         <img 
                             src={product.image_front_url} 
@@ -58,16 +95,16 @@ export default function Result() {
                             <span className="text-xs text-zinc-500">No Image</span>
                         </div>
                     )}
-                    <div className="flex flex-col justify-center">
+                    <div className="flex flex-col justify-center items-center text-center">
                         <h1 className="text-xl font-bold text-white leading-tight">
                             {product.product_name || "Unknown Product"}
                         </h1>
-                        <p className="text-sm text-zinc-400 mt-1">{product.brands || "Unknown Brand"}</p>
+                        <p className="text-sm text-zinc-400 mt-1 mb-4">{product.brands || "Unknown Brand"}</p>
                         
-                        {/* Nutri-score Badge */}
-                    <div className="shrink-0 justify-center w-50 h-50">
-                        <NutriScore grade={product.nutriscore_grade} />
-                    </div>
+                        {/* 2. Pass the calculated score into your visual component */}
+                        <div className="shrink-0 flex justify-center w-full">
+                            <ScoreCircle score={currentScore} label="Health Score" />
+                        </div>
                     </div>
                 </div>
 
