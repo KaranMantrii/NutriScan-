@@ -137,8 +137,10 @@ export default function Result() {
       return {
         color: "text-green-400",
         border: "border-green-500/30",
-        cardBg: "bg-gradient-to-b from-green-500/10 to-black/60",
         shadow: "shadow-[0_0_40px_rgba(74,222,128,0.15)]",
+        glow: (
+          <div className="pointer-events-none absolute inset-0 rounded-[3rem] bg-linear-to-br from-green-500/10 via-transparent to-emerald-400/10 blur-2xl" />
+        ),
         badgeBg: "bg-green-500/10",
         icon: <CheckCircle2 className="h-5 w-5 text-green-400" />,
         text: "Great choice for your goals!",
@@ -147,8 +149,10 @@ export default function Result() {
       return {
         color: "text-yellow-400",
         border: "border-yellow-500/30",
-        cardBg: "bg-gradient-to-b from-yellow-500/10 to-black/60",
         shadow: "shadow-[0_0_40px_rgba(250,204,21,0.15)]",
+        glow: (
+          <div className="pointer-events-none absolute inset-0 rounded-[3rem] bg-linear-to-br from-yellow-500/10 via-transparent to-amber-400/10 blur-2xl" />
+        ),
         badgeBg: "bg-yellow-500/10",
         icon: <Activity className="h-5 w-5 text-yellow-400" />,
         text: "Moderate impact. Consume in moderation.",
@@ -156,8 +160,10 @@ export default function Result() {
     return {
       color: "text-red-400",
       border: "border-red-500/30",
-      cardBg: "bg-gradient-to-b from-red-500/10 to-black/60",
       shadow: "shadow-[0_0_40px_rgba(248,113,113,0.15)]",
+      glow: (
+        <div className="pointer-events-none absolute inset-0 rounded-[3rem] bg-linear-to-br from-red-500/10 via-transparent to-rose-400/10 blur-2xl" />
+      ),
       badgeBg: "bg-red-500/10",
       icon: <AlertTriangle className="h-5 w-5 text-red-400" />,
       text: "Highly processed. Seek alternatives.",
@@ -221,15 +227,16 @@ export default function Result() {
   };
 
   return (
-    <div className="min-h-dvh  text-white overflow-x-hidden pb-20 relative">
+    <div className="min-h-dvh  text-white overflow-x-hidden pb-15 relative">
       {/* Header */}
-      <header className="sticky top-0 z-50 p-2 flex items-center justify-between border-b border-white/5 ">
+      <header className="sticky top-0 z-50 p-1 flex items-center justify-between border-b border-white/5 ">
         <div className="flex items-center">
           <button
             onClick={() => navigate(-1)}
-            className="p-3 rounded-full hover:bg-white/5 transition-colors"
+            className="p-3 rounded-full hover:bg-white/5 text-sm transition-colors flex items-center gap-2"
           >
             <ChevronLeft className="w-6 h-6 text-zinc-300" />
+            BACK
           </button>
         </div>
         <Link
@@ -237,8 +244,8 @@ export default function Result() {
           className="p-3 rounded-full hover:bg-white/5 transition-colors flex items-center gap-2"
         >
           <ScanLine className="w-5 h-5 text-zinc-300" />
-          <span className="text-sm font-medium text-zinc-300 font-chillax sm:block">
-            Scan Another
+          <span className="text-sm font-medium font-chillax sm:block">
+            SCAN ANOTHER
           </span>
         </Link>
       </header>
@@ -253,7 +260,7 @@ export default function Result() {
           {/* --- TOP PRODUCT CARD --- */}
           <motion.div
             variants={item}
-            className={`relative overflow-hidden rounded-[2.5rem] border ${theme.border} ${theme.cardBg} ${theme.shadow} p-6  transition-colors duration-700`}
+            className={`relative overflow-hidden rounded-[2.5rem]  ${theme.border} ${theme.shadow} bg-black/90 ${theme.glow} p-6  transition-colors duration-700`}
           >
             {/* Tagline */}
             <div className="mb-6 flex items-center justify-between">
@@ -298,7 +305,7 @@ export default function Result() {
 
             {/* BIG Score Circle */}
             <div className="flex justify-center py-2 shrink-0 scale-110 sm:scale-125 mb-4">
-              <ScoreCircle score={currentScore} size={220} />
+              <ScoreCircle score={currentScore} size={200} />
             </div>
 
             {/* Verdict Banner */}
@@ -313,188 +320,198 @@ export default function Result() {
           </motion.div>
 
           {/* --- NUTRITION FACTS CARDS (Expanded 2x4 Grid) --- */}
-          <motion.div variants={container} className="grid grid-cols-2 gap-3">
-            {/* Calories Card */}
-            <motion.div
-              variants={item}
-              className={`rounded-3xl border ${theme.border} ${theme.cardBg} ${theme.shadow} p-4 backdrop-blur-xl flex flex-col transition-colors duration-700`}
-            >
-              <div className="flex items-center gap-2 mb-2">
-                <Flame className="w-4 h-4 text-orange-400" />
-                <div className="text-[11px] uppercase tracking-wide text-zinc-400 font-outfit font-medium">
-                  Calories
-                </div>
+          <div className="bg-black/80 rounded-3xl p-4 border border-white/5">
+            <div className="flex justify-around">
+              <div className="text-sm uppercase tracking-wide text-zinc-400 font-outfit font-medium">
+                Nutrition Facts
               </div>
-              <div className="flex items-end justify-between mt-auto">
-                <span className="text-xl sm:text-2xl font-bold text-orange-400 font-outfit">
-                  {getVal("energy-kcal")}
-                  <span className="text-[10px] sm:text-xs text-zinc-400 ml-1">
-                    kcal
+              <div className="text-sm uppercase tracking-wide text-zinc-400 font-outfit font-medium">
+                (per 100g)
+              </div>
+            </div>
+            <motion.div variants={container} className="grid grid-cols-2 gap-3">
+              {/* Calories Card */}
+              <motion.div
+                variants={item}
+                className={`rounded-3xl border ${theme.border} bg-zinc-800 ${theme.shadow} p-4 flex flex-col transition-colors duration-700`}
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <Flame className="w-4 h-4 text-orange-400" />
+                  <div className="text-[11px] uppercase tracking-wide text-zinc-400 font-outfit font-medium">
+                    Calories
+                  </div>
+                </div>
+                <div className="flex items-end justify-between mt-auto">
+                  <span className="text-xl sm:text-2xl font-bold text-orange-400 font-outfit">
+                    {getVal("energy-kcal")}
+                    <span className="text-[10px] sm:text-xs text-zinc-400 ml-1">
+                      kcal
+                    </span>
                   </span>
-                </span>
-              </div>
-            </motion.div>
-
-            {/* Protein Card */}
-            <motion.div
-              variants={item}
-              className={`rounded-3xl border ${theme.border} ${theme.cardBg} ${theme.shadow} p-4 backdrop-blur-xl flex flex-col transition-colors duration-700`}
-            >
-              <div className="flex items-center gap-2 mb-2">
-                <Drumstick className="w-4 h-4 text-zinc-400" />
-                <div className="text-[11px] uppercase tracking-wide text-zinc-400 font-outfit font-medium">
-                  Protein
                 </div>
-              </div>
-              <div className="flex items-end justify-between mt-auto">
-                <span className="text-xl sm:text-2xl font-bold font-outfit text-white">
-                  {getNutrientStr("proteins")}
-                </span>
-                <span
-                  className={`text-xs font-semibold font-outfit mb-1 ${analyzeNutrient(getVal("proteins"), "protein").color}`}
-                >
-                  {analyzeNutrient(getVal("proteins"), "protein").text}
-                </span>
-              </div>
-            </motion.div>
+              </motion.div>
 
-            {/* Carbs Card */}
-            <motion.div
-              variants={item}
-              className={`rounded-3xl border ${theme.border} ${theme.cardBg} ${theme.shadow} p-4 backdrop-blur-xl flex flex-col transition-colors duration-700`}
-            >
-              <div className="flex items-center gap-2 mb-2">
-                <Wheat className="w-4 h-4 text-zinc-400" />
-                <div className="text-[11px] uppercase tracking-wide text-zinc-400 font-outfit font-medium">
-                  Carbs
+              {/* Protein Card */}
+              <motion.div
+                variants={item}
+                className={`rounded-3xl border ${theme.border} bg-zinc-800 ${theme.shadow} p-4  flex flex-col transition-colors duration-700`}
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <Drumstick className="w-4 h-4 text-zinc-400" />
+                  <div className="text-[11px] uppercase tracking-wide text-zinc-400 font-outfit font-medium">
+                    Protein
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-end justify-between mt-auto">
-                <span className="text-xl sm:text-2xl font-bold font-outfit text-white">
-                  {getNutrientStr("carbohydrates")}
-                </span>
-              </div>
-            </motion.div>
+                <div className="flex items-end justify-between mt-auto">
+                  <span className="text-xl sm:text-2xl font-bold font-outfit text-white">
+                    {getNutrientStr("proteins")}
+                  </span>
+                  <span
+                    className={`text-xs font-semibold font-outfit mb-1 ${analyzeNutrient(getVal("proteins"), "protein").color}`}
+                  >
+                    {analyzeNutrient(getVal("proteins"), "protein").text}
+                  </span>
+                </div>
+              </motion.div>
 
-            {/* Sugar Card */}
-            <motion.div
-              variants={item}
-              className={`rounded-3xl border ${theme.border} ${theme.cardBg} ${theme.shadow} p-4 backdrop-blur-xl flex flex-col transition-colors duration-700`}
-            >
-              <div className="flex items-center gap-2 mb-2">
-                <Candy className="w-4 h-4 text-zinc-400" />
-                <div className="text-[11px] uppercase tracking-wide text-zinc-400 font-outfit font-medium">
-                  Sugar
+              {/* Carbs Card */}
+              <motion.div
+                variants={item}
+                className={`rounded-3xl border ${theme.border} bg-zinc-800 ${theme.shadow} p-4  flex flex-col transition-colors duration-700`}
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <Wheat className="w-4 h-4 text-zinc-400" />
+                  <div className="text-[11px] uppercase tracking-wide text-zinc-400 font-outfit font-medium">
+                    Carbs
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-end justify-between mt-auto">
-                <span className="text-xl sm:text-2xl font-bold font-outfit text-white">
-                  {getNutrientStr("sugars")}
-                </span>
-                <span
-                  className={`text-xs font-semibold font-outfit mb-1 ${analyzeNutrient(getVal("sugars"), "sugar").color}`}
-                >
-                  {analyzeNutrient(getVal("sugars"), "sugar").text}
-                </span>
-              </div>
-            </motion.div>
+                <div className="flex items-end justify-between mt-auto">
+                  <span className="text-xl sm:text-2xl font-bold font-outfit text-white">
+                    {getNutrientStr("carbohydrates")}
+                  </span>
+                </div>
+              </motion.div>
 
-            {/* Total Fat Card */}
-            <motion.div
-              variants={item}
-              className={`rounded-3xl border ${theme.border} ${theme.cardBg} ${theme.shadow} p-4 backdrop-blur-xl flex flex-col transition-colors duration-700`}
-            >
-              <div className="flex items-center gap-2 mb-2">
-                <Droplet className="w-4 h-4 text-zinc-400" />
-                <div className="text-[11px] uppercase tracking-wide text-zinc-400 font-outfit font-medium">
-                  Total Fat
+              {/* Sugar Card */}
+              <motion.div
+                variants={item}
+                className={`rounded-3xl border ${theme.border} bg-zinc-800 ${theme.shadow} p-4  flex flex-col transition-colors duration-700`}
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <Candy className="w-4 h-4 text-zinc-400" />
+                  <div className="text-[11px] uppercase tracking-wide text-zinc-400 font-outfit font-medium">
+                    Sugar
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-end justify-between mt-auto">
-                <span className="text-xl sm:text-2xl font-bold font-outfit text-white">
-                  {getNutrientStr("fat")}
-                </span>
-                <span
-                  className={`text-xs font-semibold font-outfit mb-1 ${analyzeNutrient(getVal("fat"), "fat").color}`}
-                >
-                  {analyzeNutrient(getVal("fat"), "fat").text}
-                </span>
-              </div>
-            </motion.div>
+                <div className="flex items-end justify-between mt-auto">
+                  <span className="text-xl sm:text-2xl font-bold font-outfit text-white">
+                    {getNutrientStr("sugars")}
+                  </span>
+                  <span
+                    className={`text-xs font-semibold font-outfit mb-1 ${analyzeNutrient(getVal("sugars"), "sugar").color}`}
+                  >
+                    {analyzeNutrient(getVal("sugars"), "sugar").text}
+                  </span>
+                </div>
+              </motion.div>
 
-            {/* Saturated Fat Card */}
-            <motion.div
-              variants={item}
-              className={`rounded-3xl border ${theme.border} ${theme.cardBg} ${theme.shadow} p-4 backdrop-blur-xl flex flex-col transition-colors duration-700`}
-            >
-              <div className="flex items-center gap-2 mb-2">
-                <Droplet className="w-4 h-4 text-rose-400/80" />
-                <div className="text-[11px] uppercase tracking-wide text-zinc-400 font-outfit font-medium">
-                  Sat. Fat
+              {/* Total Fat Card */}
+              <motion.div
+                variants={item}
+                className={`rounded-3xl border ${theme.border} bg-zinc-800 ${theme.shadow} p-4 flex flex-col transition-colors duration-700`}
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <Droplet className="w-4 h-4 text-zinc-400" />
+                  <div className="text-[11px] uppercase tracking-wide text-zinc-400 font-outfit font-medium">
+                    Total Fat
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-end justify-between mt-auto">
-                <span className="text-xl sm:text-2xl font-bold font-outfit text-white">
-                  {getNutrientStr("saturated-fat")}
-                </span>
-                <span
-                  className={`text-xs font-semibold font-outfit mb-1 ${analyzeNutrient(getVal("saturated-fat"), "saturated-fat").color}`}
-                >
-                  {
-                    analyzeNutrient(getVal("saturated-fat"), "saturated-fat")
-                      .text
-                  }
-                </span>
-              </div>
-            </motion.div>
+                <div className="flex items-end justify-between mt-auto">
+                  <span className="text-xl sm:text-2xl font-bold font-outfit text-white">
+                    {getNutrientStr("fat")}
+                  </span>
+                  <span
+                    className={`text-xs font-semibold font-outfit mb-1 ${analyzeNutrient(getVal("fat"), "fat").color}`}
+                  >
+                    {analyzeNutrient(getVal("fat"), "fat").text}
+                  </span>
+                </div>
+              </motion.div>
 
-            {/* Fiber Card */}
-            <motion.div
-              variants={item}
-              className={`rounded-3xl border ${theme.border} ${theme.cardBg} ${theme.shadow} p-4 backdrop-blur-xl flex flex-col transition-colors duration-700`}
-            >
-              <div className="flex items-center gap-2 mb-2">
-                <Leaf className="w-4 h-4 text-zinc-400" />
-                <div className="text-[11px] uppercase tracking-wide text-zinc-400 font-outfit font-medium">
-                  Fiber
+              {/* Saturated Fat Card */}
+              <motion.div
+                variants={item}
+                className={`rounded-3xl border ${theme.border} bg-zinc-800 ${theme.shadow} p-4 flex flex-col transition-colors duration-700`}
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <Droplet className="w-4 h-4 text-rose-400/80" />
+                  <div className="text-[11px] uppercase tracking-wide text-zinc-400 font-outfit font-medium">
+                    Sat. Fat
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-end justify-between mt-auto">
-                <span className="text-xl sm:text-2xl font-bold font-outfit text-white">
-                  {getNutrientStr("fiber")}
-                </span>
-                <span
-                  className={`text-xs font-semibold font-outfit mb-1 ${analyzeNutrient(getVal("fiber"), "fiber").color}`}
-                >
-                  {analyzeNutrient(getVal("fiber"), "fiber").text}
-                </span>
-              </div>
-            </motion.div>
+                <div className="flex items-end justify-between mt-auto">
+                  <span className="text-xl sm:text-2xl font-bold font-outfit text-white">
+                    {getNutrientStr("saturated-fat")}
+                  </span>
+                  <span
+                    className={`text-xs font-semibold font-outfit mb-1 ${analyzeNutrient(getVal("saturated-fat"), "saturated-fat").color}`}
+                  >
+                    {
+                      analyzeNutrient(getVal("saturated-fat"), "saturated-fat")
+                        .text
+                    }
+                  </span>
+                </div>
+              </motion.div>
 
-            {/* Sodium Card */}
-            <motion.div
-              variants={item}
-              className={`rounded-3xl border ${theme.border} ${theme.cardBg} ${theme.shadow} p-4 backdrop-blur-xl flex flex-col transition-colors duration-700`}
-            >
-              <div className="flex items-center gap-2 mb-2">
-                <TestTube className="w-4 h-4 text-zinc-400" />
-                <div className="text-[11px] uppercase tracking-wide text-zinc-400 font-outfit font-medium">
-                  Sodium
+              {/* Fiber Card */}
+              <motion.div
+                variants={item}
+                className={`rounded-3xl border ${theme.border} bg-zinc-800  ${theme.shadow} p-4 flex flex-col transition-colors duration-700`}
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <Leaf className="w-4 h-4 text-zinc-400" />
+                  <div className="text-[11px] uppercase tracking-wide text-zinc-400 font-outfit font-medium">
+                    Fiber
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-end justify-between mt-auto">
-                <span className="text-xl sm:text-2xl font-bold font-outfit text-white">
-                  {/* Sodium requires checking if it exists, fallback handles this smoothly */}
-                  {getNutrientStr("sodium")}
-                </span>
-                <span
-                  className={`text-xs font-semibold font-outfit mb-1 ${analyzeNutrient(getVal("sodium"), "sodium").color}`}
-                >
-                  {analyzeNutrient(getVal("sodium"), "sodium").text}
-                </span>
-              </div>
+                <div className="flex items-end justify-between mt-auto">
+                  <span className="text-xl sm:text-2xl font-bold font-outfit text-white">
+                    {getNutrientStr("fiber")}
+                  </span>
+                  <span
+                    className={`text-xs font-semibold font-outfit mb-1 ${analyzeNutrient(getVal("fiber"), "fiber").color}`}
+                  >
+                    {analyzeNutrient(getVal("fiber"), "fiber").text}
+                  </span>
+                </div>
+              </motion.div>
+
+              {/* Sodium Card */}
+              <motion.div
+                variants={item}
+                className={`rounded-3xl border ${theme.border} bg-zinc-800 ${theme.shadow} p-4 flex flex-col transition-colors duration-700`}
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <TestTube className="w-4 h-4 text-zinc-400" />
+                  <div className="text-[11px] uppercase tracking-wide text-zinc-400 font-outfit font-medium">
+                    Sodium
+                  </div>
+                </div>
+                <div className="flex items-end justify-between mt-auto">
+                  <span className="text-xl sm:text-2xl font-bold font-outfit text-white">
+                    {/* Sodium requires checking if it exists, fallback handles this smoothly */}
+                    {getNutrientStr("sodium")}
+                  </span>
+                  <span
+                    className={`text-xs font-semibold font-outfit mb-1 ${analyzeNutrient(getVal("sodium"), "sodium").color}`}
+                  >
+                    {analyzeNutrient(getVal("sodium"), "sodium").text}
+                  </span>
+                </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
+          </div>
         </motion.div>
       </main>
     </div>
