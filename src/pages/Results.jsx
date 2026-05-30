@@ -643,7 +643,6 @@ export default function Result() {
             variants={item}
             className="bg-zinc-900/80 backdrop-blur-md rounded-3xl p-5 sm:p-6 border border-amber-500/20 shadow-[0_0_30px_rgba(245,158,11,0.1)] mb-10"
           >
-            // Nutritionist Insights
             <div className="flex items-center gap-2 mb-4">
               <div className="p-1.5 bg-amber-500/20 rounded-lg border border-amber-500/30">
                 <Sparkles className="w-4 h-4 text-amber-400" />
