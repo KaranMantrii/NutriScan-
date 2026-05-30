@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import ReactMarkdown from "react-markdown";
-import { Ollama } from "ollama";
 import {
   ChevronLeft,
   Flame,
@@ -19,6 +17,10 @@ import {
   TestTube,
   OctagonAlert,
   Dot,
+  Factory,
+  Globe,
+  CircleDot,
+  Vegan,
 } from "lucide-react";
 
 import {
@@ -149,6 +151,16 @@ export default function Result() {
   const cleanAnalysis = rawAnalysis.map(Cleaner);
   const hasAllergens = cleanAllergens.length > 0;
 
+  // --- DIETARY ICON LOGIC ---
+  const getDietIcon = () => {
+    if (cleanAnalysis.includes("non vegetarian")) return Drumstick;
+    if (cleanAnalysis.includes("vegan")) return Vegan;
+    if (cleanAnalysis.includes("vegetarian")) return CircleDot;
+    return Sparkles; // Fallback if data is unknown
+  };
+
+  const DietIcon = getDietIcon();
+
   const getTheme = (score) => {
     if (score >= 75)
       return {
@@ -224,6 +236,113 @@ export default function Result() {
         : { text: "Normal", color: "text-zinc-400" };
     return { text: "", color: "text-zinc-400" };
   };
+
+  // --- NOVA & ECO SCORE LOGIC ---
+  const novaScore = product.nova_group;
+  const ecoScore = product.ecoscore_grade
+    ? product.ecoscore_grade.toUpperCase()
+    : "Unknown";
+
+  const getNovaDetails = (score) => {
+    switch (score) {
+      case 1:
+        return {
+          color: "text-emerald-400",
+          bg: "bg-emerald-500/10",
+          border: "border-emerald-500/20",
+          label: "NOVA 1",
+          desc: "Unprocessed / minimally processed.",
+        };
+      case 2:
+        return {
+          color: "text-lime-400",
+          bg: "bg-lime-500/10",
+          border: "border-lime-500/20",
+          label: "NOVA 2",
+          desc: "Processed culinary ingredients.",
+        };
+      case 3:
+        return {
+          color: "text-amber-400",
+          bg: "bg-amber-500/10",
+          border: "border-amber-500/20",
+          label: "NOVA 3",
+          desc: "Processed foods.",
+        };
+      case 4:
+        return {
+          color: "text-rose-400",
+          bg: "bg-rose-500/10",
+          border: "border-rose-500/20",
+          label: "NOVA 4",
+          desc: "Ultra-processed foods.",
+        };
+      default:
+        return {
+          color: "text-zinc-400",
+          bg: "bg-zinc-800/50",
+          border: "border-white/5",
+          label: "Unknown",
+          desc: "Processing level unavailable.",
+        };
+    }
+  };
+
+  const getEcoDetails = (grade) => {
+    switch (grade) {
+      case "A":
+        return {
+          color: "text-emerald-400",
+          bg: "bg-emerald-500/10",
+          border: "border-emerald-500/20",
+          label: "Grade A",
+          desc: "Very low environmental impact.",
+        };
+      case "B":
+        return {
+          color: "text-lime-400",
+          bg: "bg-lime-500/10",
+          border: "border-lime-500/20",
+          label: "Grade B",
+          desc: "Low environmental impact.",
+        };
+      case "C":
+        return {
+          color: "text-amber-400",
+          bg: "bg-amber-500/10",
+          border: "border-amber-500/20",
+          label: "Grade C",
+          desc: "Moderate environmental impact.",
+        };
+      case "D":
+        return {
+          color: "text-orange-400",
+          bg: "bg-orange-500/10",
+          border: "border-orange-500/20",
+          label: "Grade D",
+          desc: "High environmental impact.",
+        };
+      case "E":
+        return {
+          color: "text-rose-400",
+          bg: "bg-rose-500/10",
+          border: "border-rose-500/20",
+          label: "Grade E",
+          desc: "Very high environmental impact.",
+        };
+      default:
+        return {
+          color: "text-zinc-400",
+          bg: "bg-zinc-800/50",
+          border: "border-white/5",
+          label: "Unknown",
+          desc: "Eco score unavailable.",
+        };
+    }
+  };
+
+  const novaDetails = getNovaDetails(novaScore);
+  const ecoDetails = getEcoDetails(ecoScore);
 
   const theme = getTheme(currentScore);
 
@@ -333,7 +452,7 @@ export default function Result() {
   return (
     <div className="min-h-dvh text-white overflow-x-hidden pb-20 relative selection:bg-emerald-500/30">
       {/* Header - Added Glassmorphism */}
-      <header className="sticky top-0 z-50 p-2 px-4 flex items-center justify-between border-b border-white/5">
+      <header className="sticky top-0 z-50 p-2 px-4 flex items-center justify-between border-b border-white/5 backdrop-blur-md">
         <button
           onClick={() => navigate(-1)}
           className="p-2 rounded-full hover:bg-white/10 text-sm font-outfit font-medium transition-colors flex items-center gap-1 text-zinc-300"
@@ -373,8 +492,17 @@ export default function Result() {
               </div>
               <div
                 className={`flex h-10 w-10 items-center justify-center rounded-full ${theme.badgeBg} border ${theme.border}`}
+                title={
+                  cleanAnalysis.includes("non vegetarian")
+                    ? "Non-Vegetarian"
+                    : cleanAnalysis.includes("vegan")
+                      ? "Vegan"
+                      : cleanAnalysis.includes("vegetarian")
+                        ? "Vegetarian"
+                        : "Unknown Diet"
+                }
               >
-                <Sparkles className={`h-5 w-5 ${theme.color}`} />
+                <DietIcon className={`h-5 w-5 ${theme.color}`} />
               </div>
             </div>
 
@@ -434,7 +562,67 @@ export default function Result() {
             </div>
           </motion.div>
 
-          {/* --- ALLERGEN WARNINGS (Sleek Chip Style) --- */}
+          {/* --- NOVA & ECO SCORES --- */}
+          <motion.div
+            variants={item}
+            className="grid grid-cols-2 gap-3 sm:gap-4"
+          >
+            {/* NOVA Card */}
+            <div
+              className={`rounded-3xl border ${novaDetails.border} ${novaDetails.bg} p-5 backdrop-blur-md shadow-lg flex flex-col justify-between`}
+            >
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <Factory className={`w-4 h-4 ${novaDetails.color}`} />
+                  <div className="text-[10px] uppercase tracking-widest text-zinc-400 font-outfit font-bold">
+                    NOVA Score
+                  </div>
+                </div>
+                <div
+                  className={`text-xl font-black ${novaDetails.color} font-outfit tracking-tight`}
+                >
+                  {novaDetails.label}
+                </div>
+              </div>
+              <div className="mt-4">
+                <p className="text-xs text-zinc-300 font-outfit leading-snug font-medium mb-1.5">
+                  {novaDetails.desc}
+                </p>
+                <p className="text-[10px] text-zinc-500 font-outfit leading-snug">
+                  Classifies food based on the level of industrial processing.
+                </p>
+              </div>
+            </div>
+
+            {/* ECO Card */}
+            <div
+              className={`rounded-3xl border ${ecoDetails.border} ${ecoDetails.bg} p-5 backdrop-blur-md shadow-lg flex flex-col justify-between`}
+            >
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <Globe className={`w-4 h-4 ${ecoDetails.color}`} />
+                  <div className="text-[10px] uppercase tracking-widest text-zinc-400 font-outfit font-bold">
+                    Eco Score
+                  </div>
+                </div>
+                <div
+                  className={`text-xl font-black ${ecoDetails.color} font-outfit tracking-tight`}
+                >
+                  {ecoDetails.label}
+                </div>
+              </div>
+              <div className="mt-4">
+                <p className="text-xs text-zinc-300 font-outfit leading-snug font-medium mb-1.5">
+                  {ecoDetails.desc}
+                </p>
+                <p className="text-[10px] text-zinc-500 font-outfit leading-snug">
+                  Rates the environmental impact from production to packaging.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* --- ALLERGEN WARNINGS --- */}
           <motion.div
             variants={item}
             className="bg-zinc-900/60 backdrop-blur-md rounded-3xl p-5 border border-white/5 shadow-lg"
@@ -467,7 +655,7 @@ export default function Result() {
             )}
           </motion.div>
 
-          {/* --- NUTRITION FACTS GRID (Glassmorphic) --- */}
+          {/* --- NUTRITION FACTS GRID --- */}
           <motion.div
             variants={item}
             className="bg-zinc-900/60 backdrop-blur-md rounded-3xl p-5 border border-white/5 shadow-lg"
@@ -639,6 +827,8 @@ export default function Result() {
               </div>
             </div>
           </motion.div>
+
+          {/* --- AI INSIGHTS CARD --- */}
           <motion.div
             variants={item}
             className="bg-zinc-900/80 backdrop-blur-md rounded-3xl p-5 sm:p-6 border border-amber-500/20 shadow-[0_0_30px_rgba(245,158,11,0.1)] mb-10"
@@ -651,6 +841,7 @@ export default function Result() {
                 AI Nutritionist Insights
               </div>
             </div>
+
             {!insights ? (
               <div className="flex items-center gap-2 text-zinc-400 text-sm font-outfit animate-pulse">
                 <Activity className="w-4 h-4" /> Analyzing product data...
@@ -661,7 +852,7 @@ export default function Result() {
                   if (!line.trim()) return null;
 
                   return (
-                    <p key={index} className="mb-2 last:mb-0">
+                    <p key={index} className="mb-3 last:mb-0">
                       {line.trim()}
                     </p>
                   );
