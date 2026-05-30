@@ -1,12 +1,10 @@
-import Index from './pages/landing/Index.jsx';
-import Fitness from './pages/fitness.jsx';
-import Result from './pages/Results.jsx';
-import Recipe from './pages/Recipes.jsx';
+import Index from "./pages/landing/Index.jsx";
+import Fitness from "./pages/fitness.jsx";
+import Result from "./pages/Results.jsx";
+import Recipe from "./pages/Recipes.jsx";
 
-import './styles.css';
+import "./styles.css";
 function App() {
-  return (
-      <Index/>
-  )
+  return <Index />;
 }
 export default App;
