@@ -20,6 +20,9 @@ import {
   Factory,
   Globe,
   CircleDot,
+  Recycle,
+  Beaker,
+  ShieldCheck,
   Vegan,
 } from "lucide-react";
 
@@ -158,8 +161,51 @@ export default function Result() {
     if (cleanAnalysis.includes("vegetarian")) return CircleDot;
     return Sparkles; // Fallback if data is unknown
   };
-
   const DietIcon = getDietIcon();
+
+  // --- MORE TAGS LOGIC ---
+  const additiveCount = product.additives_tags?.length || 0;
+  const rawLabels = product.labels_tags || [];
+  const rawPackaging = product.packaging_tags || [];
+  const highlightLabels = [];
+
+  if (rawLabels.includes("en:organic"))
+    highlightLabels.push({
+      text: "Organic",
+      icon: ShieldCheck,
+      color: "text-emerald-400 bg-emerald-500/10 border-emerald-500/20",
+    });
+  if (rawLabels.includes("en:gluten-free"))
+    highlightLabels.push({
+      text: "Gluten-Free",
+      icon: Wheat,
+      color: "text-amber-400 bg-amber-500/10 border-amber-500/20",
+    });
+  if (rawLabels.includes("en:no-added-sugar"))
+    highlightLabels.push({
+      text: "No Added Sugar",
+      icon: Candy,
+      color: "text-blue-400 bg-blue-500/10 border-blue-500/20",
+    });
+  if (rawLabels.includes("en:halal"))
+    highlightLabels.push({
+      text: "Halal",
+      icon: CheckCircle2,
+      color: "text-emerald-400 bg-emerald-500/10 border-emerald-500/20",
+    });
+
+  if (getVal("proteins") >= 15)
+    highlightLabels.push({
+      text: "High Protein",
+      icon: Drumstick,
+      color: "text-orange-400 bg-orange-500/10 border-orange-500/20",
+    });
+  if (rawPackaging.includes("en:recyclable"))
+    highlightLabels.push({
+      text: "Recyclable",
+      icon: Recycle,
+      color: "text-teal-400 bg-teal-500/10 border-teal-500/20",
+    });
 
   const getTheme = (score) => {
     if (score >= 75)
@@ -439,7 +485,6 @@ export default function Result() {
         setInsights(cleanContent);
       } catch (error) {
         console.error("Nutritionist Out of Advice:", error);
-
         setInsights(
           "Our AI nutritionist is taking a quick break! 🧘‍♀️ Please try scanning again in a moment.",
         );
@@ -451,8 +496,8 @@ export default function Result() {
 
   return (
     <div className="min-h-dvh text-white overflow-x-hidden pb-20 relative selection:bg-emerald-500/30">
-      {/* Header - Added Glassmorphism */}
-      <header className="sticky top-0 z-50 p-2 px-4 flex items-center justify-between border-b border-white/5 backdrop-blur-md">
+      {/* Header */}
+      <header className="sticky top-0 z-50 p-2 px-4 flex items-center justify-between border-b border-white/5 backdrop-blur-md bg-black/50">
         <button
           onClick={() => navigate(-1)}
           className="p-2 rounded-full hover:bg-white/10 text-sm font-outfit font-medium transition-colors flex items-center gap-1 text-zinc-300"
@@ -529,21 +574,51 @@ export default function Result() {
               <h1 className="text-2xl sm:text-3xl font-black text-white leading-tight font-outfit tracking-tight">
                 {product.product_name || "Unknown Product"}
               </h1>
-              <div className="flex gap-1">
-                <p className="text-sm text-zinc-400 mt-2 font-outfit font-medium">
+
+              <div className="flex flex-wrap justify-center items-center gap-1 mt-2">
+                <p className="text-sm text-zinc-400 font-outfit font-medium mr-1">
                   {product.code || "Unknown Code"}
                 </p>
                 {product.category &&
                   product.category !== "Unknown Category" && (
-                    <div className="rounded-3xl border border-white/5 p-1 items-center bg-green-800/80">
-                      <div className="flex gap-1">
-                        <Dot className="w-2 h-2 text-white" />
-                        <p className="text-sm text-white mt-2 font-outfit font-medium">
+                    <div className="rounded-3xl border border-white/5 p-1 px-2 items-center bg-green-800/80">
+                      <div className="flex gap-1 items-center">
+                        <Dot className="w-3 h-3 text-white" />
+                        <p className="text-xs text-white font-outfit font-medium">
                           {product.category}
                         </p>
                       </div>
                     </div>
                   )}
+              </div>
+
+              {/* --- ADVANCED QUICK TAGS --- */}
+              <div className="flex flex-wrap justify-center gap-2 mt-4">
+                {additiveCount === 0 ? (
+                  <span className="flex items-center gap-1 px-2.5 py-1 rounded-full border text-[10px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 border-emerald-500/20">
+                    <CheckCircle2 className="w-3 h-3" /> Clean Label
+                  </span>
+                ) : additiveCount > 4 ? (
+                  <span className="flex items-center gap-1 px-2.5 py-1 rounded-full border text-[10px] font-bold uppercase tracking-wider text-rose-400 bg-rose-500/10 border-rose-500/20">
+                    <Beaker className="w-3 h-3" /> {additiveCount} Additives
+                  </span>
+                ) : (
+                  <span className="flex items-center gap-1 px-2.5 py-1 rounded-full border text-[10px] font-bold uppercase tracking-wider text-amber-400 bg-amber-500/10 border-amber-500/20">
+                    <Beaker className="w-3 h-3" /> {additiveCount} Additives
+                  </span>
+                )}
+
+                {highlightLabels.map((label, idx) => {
+                  const Icon = label.icon;
+                  return (
+                    <span
+                      key={idx}
+                      className={`flex items-center gap-1 px-2.5 py-1 rounded-full border text-[10px] font-bold uppercase tracking-wider ${label.color}`}
+                    >
+                      <Icon className="w-3 h-3" /> {label.text}
+                    </span>
+                  );
+                })}
               </div>
             </div>
 
@@ -838,7 +913,7 @@ export default function Result() {
                 <Sparkles className="w-4 h-4 text-amber-400" />
               </div>
               <div className="text-sm font-bold uppercase tracking-wider text-amber-400 font-outfit">
-                AI Nutritionist Insights
+                NutriBot's Insights
               </div>
             </div>
 
