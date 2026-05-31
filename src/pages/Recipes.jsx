@@ -217,7 +217,7 @@ export default function Recipe() {
                 onClick={() => console.log("Footer scan clicked")}
                 className="rounded-2xl flex items-center justify-center bg-green-400 p-3 
                             shadow-[0_0_25px_rgba(74,222,128,0.45),0_0_50px_rgba(74,222,128,0.2)] 
-                            border border-green-300/40 w-45 cursor-pointer transition-all duration-150
+                            border border-green-300/40 w-24 cursor-pointer transition-all duration-150
                             hover:brightness-105 active:scale-95"
               >
                 <ScanLine className="w-7.5 h-7.5 text-black animate-pulse" />

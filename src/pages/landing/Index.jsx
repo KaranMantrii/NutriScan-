@@ -32,7 +32,6 @@ import Tips from "../tips.jsx";
 import Result from "../Results.jsx";
 import Recipe from "../Recipes.jsx";
 import Profile from "../Profile.jsx";
-import InstallPrompt from "../../Components/InstallPrompt.jsx";
 
 function LandingContent() {
   const navigate = useNavigate();
@@ -196,7 +195,6 @@ function Index() {
   return (
     <BrowserRouter>
       <div className="w-full min-h-dvh bg-hero text-white overflow-x-hidden font-outfit">
-        <InstallPrompt />
         <main className="max-w-7xl mx-auto px-4 pt-13">
           <Routes>
             {/* The Smart Route */}

@@ -84,7 +84,7 @@ export default function Scan() {
   return (
     <div className="min-h-dvh text-white overflow-x-hidden pb-28">
       {/* Header */}
-      <header className=" top-0 left-0 z-50 p-5 sm:p-4 text-center flex items-center justify-center w-full">
+      <header className="fixed top-0 left-0 z-50 p-5 sm:p-4 text-center flex items-center justify-center w-full">
         <h4 className="text-lg font-medium text-zinc-300 font-chillax">
           SCANNER
         </h4>
@@ -174,7 +174,7 @@ export default function Scan() {
                 onClick={() => console.log("Footer scan clicked")}
                 className="rounded-2xl flex items-center justify-center bg-green-400 p-3 
                             shadow-[0_0_25px_rgba(74,222,128,0.45),0_0_50px_rgba(74,222,128,0.2)] 
-                            border border-green-300/40 w-45 cursor-pointer transition-all duration-150
+                            border border-green-300/40 w-24 cursor-pointer transition-all duration-150
                             hover:brightness-105 active:scale-95"
               >
                 <ScanLine className="w-7.5 h-7.5 text-black animate-pulse" />
