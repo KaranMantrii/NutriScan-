@@ -84,7 +84,7 @@ export default function Scan() {
   return (
     <div className="min-h-dvh text-white overflow-x-hidden pb-28">
       {/* Header */}
-      <header className="fixed top-0 left-0 z-50 p-5 sm:p-4 text-center flex items-center justify-center w-full">
+      <header className=" top-0 left-0 z-50 p-5 sm:p-4 text-center flex items-center justify-center w-full">
         <h4 className="text-lg font-medium text-zinc-300 font-chillax">
           SCANNER
         </h4>
