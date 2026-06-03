@@ -4,7 +4,7 @@ import Quagga from "@ericblade/quagga2";
 let stopTimer = null;
 let quaggaActive = false;
 
-const REQUIRED_HITS = 5; // same code must appear this many times in a row
+const REQUIRED_HITS = 3; // 3 consecutive matches — tight enough to avoid false positives, loose enough for small barcodes
 
 const QuaggaScanner = ({ onDetected }) => {
     const scannerRef = useRef(null);
@@ -53,10 +53,17 @@ const QuaggaScanner = ({ onDetected }) => {
                         target: scannerRef.current,
                         constraints: {
                             facingMode: "environment",
-                            aspectRatio: { ideal: 16 / 9 },
+                            // Higher resolution = more pixels per barcode bar = better small barcode reads
+                            width:  { min: 640, ideal: 1280, max: 1920 },
+                            height: { min: 480, ideal: 720,  max: 1080 },
                         },
                     },
-                    locator: { patchSize: "large", halfSample: true },
+                    locator: {
+                        // "medium" finds both normal and small barcodes; "large" misses small ones
+                        patchSize: "medium",
+                        // false = full resolution; true was halving the image, killing small barcode detail
+                        halfSample: false,
+                    },
                     numOfWorkers: 0,
                     decoder: {
                         readers: ["ean_reader", "ean_8_reader", "upc_reader", "upc_e_reader"],

@@ -28,6 +28,7 @@ import {
 
 import {
   calculateHealthScore,
+  GOAL_WEIGHTS,
   ScoreCircle,
 } from "../Components/NutriScore.jsx";
 
@@ -46,7 +47,16 @@ export default function Result() {
   const product = location.state?.product;
   const nutriments = product?.nutriments || {};
 
-  const currentScore = product ? calculateHealthScore(nutriments) : 0;
+  // Load health goals from the saved profile
+  const savedProfile = (() => {
+    try { return JSON.parse(localStorage.getItem("nutriscan_profile")) || {}; }
+    catch { return {}; }
+  })();
+  const activeGoals = Array.isArray(savedProfile.healthGoals) ? savedProfile.healthGoals : [];
+  const isPersonalised = activeGoals.length > 0 && activeGoals.some(g => GOAL_WEIGHTS[g]);
+
+  const baseScore    = product ? calculateHealthScore(nutriments)             : 0;
+  const currentScore = product ? calculateHealthScore(nutriments, activeGoals) : 0;
 
   // --- STATE MANAGEMENT LOGIC ---
   useEffect(() => {
@@ -411,25 +421,31 @@ export default function Result() {
     if (!product) return;
 
     const generateInsights = async () => {
-      const uPrompt = `Analyze this product and speak to the user as a friendly AI nutritionist. 
-      
+      const goalsLine = activeGoals.length > 0
+        ? `User's Health Goals: ${activeGoals.join(", ")}`
+        : "User has no specific health goals set.";
+
+      const uPrompt = `Analyze this product and speak to the user as a friendly AI nutritionist.
+
       Product Data:
       Name: ${product.product_name} by ${product.brands}
-      Score: ${currentScore}/100
+      Score: ${currentScore}/100 (personalised) | Base Score: ${baseScore}/100
       Calories: ${getVal("energy-kcal")} kcal
       Protein: ${getNutrientStr("proteins")} | Sugar: ${getNutrientStr("sugars")} | Fat: ${getNutrientStr("fat")} | Fiber: ${getNutrientStr("fiber")} | Sodium: ${getNutrientStr("sodium")}
-      
+      ${goalsLine}
+
       CRITICAL RULES:
       - EXACTLY 5 lines total.
       - MAXIMUM 10 to 15 words per line.
       - 1 SHORT SENTENCE per point. No filler.
       - PLAIN TEXT ONLY. No markdown, asterisks, or hashes.
-      
+      - If the user has health goals, tailor your advice to those goals specifically.
+
       OUTPUT STRUCTURE (Fill this in based on the Product Data above):
-      1. Verdict: (Give a 1-sentence personalized greeting and verdict with an emoji)
-      2. The Good: (1 sentence highlighting the best nutritional feature of this specific product)
-      3. The Catch: (1 sentence pointing out the worst nutritional feature)
-      4. Decision: (State "BUY" or "DO NOT BUY" with a 1-sentence reason)
+      1. Verdict: (Give a 1-sentence personalized greeting and verdict with an emoji, mention their goal if set)
+      2. The Good: (1 sentence highlighting the best nutritional feature relevant to their goals)
+      3. The Catch: (1 sentence pointing out the worst nutritional feature for their goals)
+      4. Decision: (State "BUY" or "DO NOT BUY" with a 1-sentence reason tied to their goals)
       5. Alternatives: (Suggest 2 specific healthier alternative food types in 1 or 2 sentence)
       `;
 
@@ -492,7 +508,7 @@ export default function Result() {
     };
 
     generateInsights();
-  }, [product, currentScore]);
+  }, [product, currentScore, activeGoals, baseScore]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="min-h-dvh text-white overflow-x-hidden pb-20 relative selection:bg-emerald-500/30">
@@ -623,8 +639,30 @@ export default function Result() {
             </div>
 
             {/* Score Circle Container */}
-            <div className="flex justify-center py-2 mb-6 relative z-10 drop-shadow-2xl">
+            <div className="flex flex-col items-center py-2 mb-6 relative z-10 drop-shadow-2xl gap-3">
               <ScoreCircle score={currentScore} size={220} />
+
+              {/* Personalisation badge */}
+              {isPersonalised && (
+                <div className="flex flex-col items-center gap-2">
+                  <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-[10px] font-bold uppercase tracking-wider text-violet-400 font-outfit">
+                    <Activity className="w-3 h-3" />
+                    Score tuned for your goals
+                    {baseScore !== currentScore && (
+                      <span className="ml-1 text-zinc-500">
+                        (base: {baseScore})
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex flex-wrap justify-center gap-1.5">
+                    {activeGoals.filter(g => GOAL_WEIGHTS[g]).map(g => (
+                      <span key={g} className="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-[9px] text-zinc-400 font-outfit font-medium uppercase tracking-wide">
+                        {g}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             <div
