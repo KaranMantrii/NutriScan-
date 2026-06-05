@@ -8,45 +8,70 @@ export function getScoreStatus(score) {
   return { label: "BUY IT", color: "#84cc16", glow: "#4ade80" };
 }
 
-export function calculateHealthScore(nutriments = {}) {
-  const getNumericNutrient = (key) => {
+// ─── Per-goal nutrient weight multipliers ─────────────────────────────────────
+// Each key scales the penalty or bonus for that nutrient.
+// calW / sugarW / fatW / sodiumW / carbW  → penalty multipliers (higher = harsher)
+// proteinW / fiberW / microsW             → bonus  multipliers (higher = more credit)
+// carbW < 0 → carbs treated as a bonus   (used for Build Endurance)
+export const GOAL_WEIGHTS = {
+  "Weight Loss":         { calW: 2.0,  sugarW: 1.5, fatW: 1.5,  sodiumW: 1.0, carbW:  0,    proteinW: 1.0, fiberW: 1.5, microsW: 1.0 },
+  "Muscle Gain":         { calW: 0.5,  sugarW: 1.0, fatW: 0.8,  sodiumW: 1.0, carbW:  0,    proteinW: 3.0, fiberW: 1.0, microsW: 1.5 },
+  "Maintain Weight":     { calW: 1.2,  sugarW: 1.2, fatW: 1.0,  sodiumW: 1.0, carbW:  0,    proteinW: 1.0, fiberW: 1.2, microsW: 1.0 },
+  "Heart Health":        { calW: 1.0,  sugarW: 1.0, fatW: 2.5,  sodiumW: 2.0, carbW:  0,    proteinW: 1.0, fiberW: 2.0, microsW: 1.5 },
+  "Diabetes Management": { calW: 1.0,  sugarW: 3.0, fatW: 1.5,  sodiumW: 1.0, carbW:  1.0,  proteinW: 1.0, fiberW: 2.5, microsW: 1.0 },
+  "Improve Energy":      { calW: 0.8,  sugarW: 1.5, fatW: 1.0,  sodiumW: 1.0, carbW:  0,    proteinW: 1.5, fiberW: 1.5, microsW: 2.0 },
+  "Better Sleep":        { calW: 1.0,  sugarW: 1.5, fatW: 1.0,  sodiumW: 1.0, carbW:  0,    proteinW: 1.0, fiberW: 1.0, microsW: 1.5 },
+  "Build Endurance":     { calW: 0.7,  sugarW: 0.8, fatW: 1.0,  sodiumW: 0.8, carbW: -1.0,  proteinW: 1.5, fiberW: 1.5, microsW: 2.0 },
+  "Reduce Cholesterol":  { calW: 1.0,  sugarW: 1.0, fatW: 3.0,  sodiumW: 1.5, carbW:  0,    proteinW: 1.0, fiberW: 2.5, microsW: 1.0 },
+  "Gut Health":          { calW: 1.0,  sugarW: 1.5, fatW: 1.0,  sodiumW: 1.0, carbW:  0,    proteinW: 1.5, fiberW: 3.0, microsW: 1.5 },
+};
+
+const DEFAULT_WEIGHTS = { calW: 1.0, sugarW: 1.0, fatW: 1.0, sodiumW: 1.0, carbW: 0, proteinW: 1.0, fiberW: 1.0, microsW: 1.0 };
+
+// Average the weights of all active goals; fall back to defaults if none match.
+export function resolveWeights(goals = []) {
+  const active = goals.filter(g => GOAL_WEIGHTS[g]).map(g => GOAL_WEIGHTS[g]);
+  if (active.length === 0) return { ...DEFAULT_WEIGHTS };
+  const merged = {};
+  for (const key of Object.keys(DEFAULT_WEIGHTS)) {
+    merged[key] = active.reduce((sum, gw) => sum + (gw[key] ?? DEFAULT_WEIGHTS[key]), 0) / active.length;
+  }
+  return merged;
+}
+
+export function calculateHealthScore(nutriments = {}, goals = []) {
+  const n = (key) => {
     const val = nutriments[`${key}_100g`];
     return val !== undefined ? parseFloat(val) : 0;
   };
 
-  const satFatDV = getNumericNutrient("fat");
-  const sodiumDV = getNumericNutrient("sodium");
-  const sugarDV = getNumericNutrient("sugars");
-  const proteinDV = getNumericNutrient("proteins");
-  const fiberDV = getNumericNutrient("fiber");
-  const vitDDV = getNumericNutrient("vitamin_d");
-  const calciumDV = getNumericNutrient("calcium");
-  const ironDV = getNumericNutrient("iron");
-  const potassiumDV = getNumericNutrient("potassium");
+  const fat      = n("fat");
+  const sodium   = n("sodium");
+  const sugar    = n("sugars");
+  const protein  = n("proteins");
+  const fiber    = n("fiber");
+  const carbs    = n("carbohydrates");
+  const calories = n("energy-kcal") || n("energy_kcal");
+  const micros   = n("vitamin_d") + n("calcium") + n("iron") + n("potassium");
 
-  const calories =
-    getNumericNutrient("energy-kcal") || getNumericNutrient("energy_kcal");
+  const w = resolveWeights(goals);
+
+  // carbEffect can be negative (bonus) for endurance goals
+  const carbEffect = Math.floor((carbs / 10) * w.carbW);
 
   const penaltyPoints =
-    Math.floor(satFatDV / 2) +
-    Math.floor(sugarDV / 2) +
-    Math.floor(sodiumDV / 5) +
-    Math.floor(calories / 25);
+    Math.floor((fat     / 2)  * w.fatW)    +
+    Math.floor((sugar   / 2)  * w.sugarW)  +
+    Math.floor((sodium  / 5)  * w.sodiumW) +
+    Math.floor((calories/ 25) * w.calW)    +
+    carbEffect;
 
-  // Aggregate Micros
-  const totalMicrosDV = vitDDV + calciumDV + ironDV + potassiumDV;
-
-  // Bonuses remain standard (1 point per 5% DV)
   const bonusPoints =
-    Math.floor(proteinDV / 5) +
-    Math.floor(fiberDV / 5) +
-    Math.floor(totalMicrosDV / 5);
+    Math.floor((protein / 5) * w.proteinW) +
+    Math.floor((fiber   / 5) * w.fiberW)   +
+    Math.floor((micros  / 5) * w.microsW);
 
-  // Calculate raw score starting from 100
-  let rawScore = 100 - penaltyPoints + bonusPoints;
-
-  // Clamp between 0 and 100
-  return Math.max(0, Math.min(100, rawScore));
+  return Math.max(0, Math.min(100, 100 - penaltyPoints + bonusPoints));
 }
 
 // The UI Component
