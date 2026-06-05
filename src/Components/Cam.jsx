@@ -4,7 +4,7 @@ import Quagga from "@ericblade/quagga2";
 let stopTimer = null;
 let quaggaActive = false;
 
-const REQUIRED_HITS = 3; // 3 consecutive matches — tight enough to avoid false positives, loose enough for small barcodes
+const REQUIRED_HITS = 5; // 3 consecutive matches — tight enough to avoid false positives, loose enough for small barcodes
 
 const QuaggaScanner = ({ onDetected }) => {
     const scannerRef = useRef(null);
