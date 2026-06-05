@@ -49,14 +49,23 @@ export default function Result() {
 
   // Load health goals from the saved profile
   const savedProfile = (() => {
-    try { return JSON.parse(localStorage.getItem("nutriscan_profile")) || {}; }
-    catch { return {}; }
+    try {
+      return JSON.parse(localStorage.getItem("nutriscan_profile")) || {};
+    } catch {
+      return {};
+    }
   })();
-  const activeGoals = Array.isArray(savedProfile.healthGoals) ? savedProfile.healthGoals : [];
-  const isPersonalised = activeGoals.length > 0 && activeGoals.some(g => GOAL_WEIGHTS[g]);
+  const activeGoals = Array.isArray(savedProfile.healthGoals)
+    ? savedProfile.healthGoals
+    : [];
+  const activeGoalsJoined = activeGoals.join(",");
+  const isPersonalised =
+    activeGoals.length > 0 && activeGoals.some((g) => GOAL_WEIGHTS[g]);
 
-  const baseScore    = product ? calculateHealthScore(nutriments)             : 0;
-  const currentScore = product ? calculateHealthScore(nutriments, activeGoals) : 0;
+  const baseScore = product ? calculateHealthScore(nutriments) : 0;
+  const currentScore = product
+    ? calculateHealthScore(nutriments, activeGoals)
+    : 0;
 
   // --- STATE MANAGEMENT LOGIC ---
   useEffect(() => {
@@ -421,9 +430,10 @@ export default function Result() {
     if (!product) return;
 
     const generateInsights = async () => {
-      const goalsLine = activeGoals.length > 0
-        ? `User's Health Goals: ${activeGoals.join(", ")}`
-        : "User has no specific health goals set.";
+      const goalsLine =
+        activeGoals.length > 0
+          ? `User's Health Goals: ${activeGoals.join(", ")}`
+          : "User has no specific health goals set.";
 
       const uPrompt = `Analyze this product and speak to the user as a friendly AI nutritionist.
 
@@ -508,7 +518,7 @@ export default function Result() {
     };
 
     generateInsights();
-  }, [product, currentScore, activeGoals, baseScore]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [product, currentScore, activeGoalsJoined, baseScore]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="min-h-dvh text-white overflow-x-hidden pb-20 relative selection:bg-emerald-500/30">
@@ -655,11 +665,16 @@ export default function Result() {
                     )}
                   </div>
                   <div className="flex flex-wrap justify-center gap-1.5">
-                    {activeGoals.filter(g => GOAL_WEIGHTS[g]).map(g => (
-                      <span key={g} className="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-[9px] text-zinc-400 font-outfit font-medium uppercase tracking-wide">
-                        {g}
-                      </span>
-                    ))}
+                    {activeGoals
+                      .filter((g) => GOAL_WEIGHTS[g])
+                      .map((g) => (
+                        <span
+                          key={g}
+                          className="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-[9px] text-zinc-400 font-outfit font-medium uppercase tracking-wide"
+                        >
+                          {g}
+                        </span>
+                      ))}
                   </div>
                 </div>
               )}
