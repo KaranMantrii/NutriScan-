@@ -523,7 +523,7 @@ export default function Result() {
   return (
     <div className="min-h-dvh text-white overflow-x-hidden pb-20 relative selection:bg-emerald-500/30">
       {/* Header */}
-      <header className="sticky top-0 z-50 p-2 px-4 flex items-center justify-between border-b border-white/5 backdrop-blur-md bg-black/50">
+      <header className="sticky top-0 z-50 p-2 px-4 flex items-center justify-between border-b border-white/5 backdrop-blur-md">
         <button
           onClick={() => navigate(-1)}
           className="p-2 rounded-full hover:bg-white/10 text-sm font-outfit font-medium transition-colors flex items-center gap-1 text-zinc-300"
